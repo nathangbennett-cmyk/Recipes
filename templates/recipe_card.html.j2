@@ -1,22 +1,28 @@
 <article class="recipe-card" id="recipe-{{ recipe.recipe_id }}">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   {% set img_src = recipe.image_url or ('../images/source/' + recipe.image_file if recipe.image_file else None) %}
-  {% if img_src %}
-  <img src="{{ img_src }}"
-       alt="{{ recipe.recipe_name }}"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">{{ recipe.emoji }}</span>
-    <span class="recipe-image__label">{{ recipe.recipe_name }}</span>
+  {% set cat_styles = {
+    'Pasta':              'linear-gradient(135deg,#F4A261 0%,#E76F51 100%)',
+    'Seafood':            'linear-gradient(135deg,#89CFF0 0%,#2196A8 100%)',
+    'Vegetarian':         'linear-gradient(135deg,#95D5B2 0%,#52B788 100%)',
+    'Brunch & Breakfast': 'linear-gradient(135deg,#FFE08A 0%,#F59E0B 100%)',
+    'Sides & Sauces':     'linear-gradient(135deg,#D4A373 0%,#8B5E3C 100%)',
+  } %}
+  {% set card_bg = cat_styles.get(recipe.category, 'linear-gradient(135deg,#FDF6F0 0%,#E8DDD0 100%)') %}
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:{{ card_bg }}">
+      <span class="recipe-image__emoji">{{ recipe.emoji }}</span>
+      <span class="recipe-image__label">{{ recipe.recipe_name }}</span>
+    </div>
+    {% if img_src %}
+    <img src="{{ img_src }}"
+         alt="{{ recipe.recipe_name }}"
+         class="recipe-image--photo"
+         loading="lazy">
+    {% endif %}
   </div>
-  {% else %}
-  <div class="recipe-image recipe-image--placeholder">
-    <span class="recipe-image__emoji">{{ recipe.emoji }}</span>
-    <span class="recipe-image__label">{{ recipe.recipe_name }}</span>
-  </div>
-  {% endif %}
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -83,9 +89,6 @@
     {% endif %}
     {% if recipe.source_url %}
     <div><strong>Source:</strong> <a href="{{ recipe.source_url }}" target="_blank">{{ recipe.source_name or 'View original' }}</a></div>
-    {% endif %}
-    {% if recipe.image_prompt %}
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: {{ recipe.image_prompt }}</em></div>
     {% endif %}
   </div>
 

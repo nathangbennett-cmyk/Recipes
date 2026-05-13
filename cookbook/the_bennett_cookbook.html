@@ -19,6 +19,7 @@
       --font-heading:      Georgia, 'Times New Roman', serif;
       --font-body:         -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
       --max-width:         900px;
+      --nav-height:        52px;
     }
 
     /* ─── Reset & Base ──────────────────────────────────────────────────── */
@@ -37,8 +38,95 @@
     a { color: var(--color-accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
-    /* ─── Layout ────────────────────────────────────────────────────────── */
-    .page-wrap { max-width: var(--max-width); margin: 0 auto; padding: 2rem 2rem 4rem; }
+    /* ─── App Navigation ────────────────────────────────────────────────── */
+    .app-nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--color-accent);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      height: var(--nav-height);
+    }
+
+    .app-nav__inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      align-items: stretch;
+      height: 100%;
+    }
+
+    .app-nav__brand {
+      display: flex;
+      align-items: center;
+      color: white;
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 1rem;
+      text-decoration: none;
+      white-space: nowrap;
+      padding-right: 1.25rem;
+      border-right: 1px solid rgba(255,255,255,0.2);
+      margin-right: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .app-nav__tabs {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+    }
+
+    .app-nav__tabs::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: rgba(255,255,255,0.72);
+      padding: 0 0.9rem;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+      height: 100%;
+    }
+
+    .tab-btn:hover { color: white; }
+    .tab-btn.active { color: white; border-bottom-color: rgba(255,255,255,0.9); }
+
+    /* ─── Panel Management ──────────────────────────────────────────────── */
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+    /* ─── Shared Layout ─────────────────────────────────────────────────── */
+    .page-wrap { max-width: var(--max-width); margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+    /* ─── Buttons ───────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-block;
+      padding: 0.55rem 1.1rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      border: 2px solid;
+      transition: all 0.15s;
+      text-decoration: none;
+      line-height: 1.4;
+    }
+
+    .btn--primary  { background: var(--color-accent); border-color: var(--color-accent); color: white; }
+    .btn--primary:hover  { background: #a93226; border-color: #a93226; color: white; }
+    .btn--outline  { background: transparent; border-color: var(--color-accent); color: var(--color-accent); }
+    .btn--outline:hover  { background: var(--color-accent); color: white; }
+    .btn--green    { background: var(--color-accent-2); border-color: var(--color-accent-2); color: white; }
+    .btn--neutral  { background: var(--color-section-bg); border-color: var(--color-border); color: var(--color-text); }
 
     /* ─── Cover Page ────────────────────────────────────────────────────── */
     .cover-page {
@@ -46,7 +134,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 80vh;
+      min-height: 60vh;
       text-align: center;
       padding: 4rem 2rem;
       border-bottom: 2px solid var(--color-border);
@@ -77,18 +165,9 @@
       margin-bottom: 3rem;
     }
 
-    .cover-meta {
-      font-size: 0.875rem;
-      color: var(--color-muted);
-      margin-top: 3rem;
-    }
+    .cover-meta { font-size: 0.875rem; color: var(--color-muted); margin-top: 3rem; }
 
-    .cover-accent-line {
-      width: 60px;
-      height: 3px;
-      background: var(--color-accent);
-      margin: 1.5rem auto;
-    }
+    .cover-accent-line { width: 60px; height: 3px; background: var(--color-accent); margin: 1.5rem auto; }
 
     /* ─── Table of Contents ─────────────────────────────────────────────── */
     .toc {
@@ -98,17 +177,9 @@
       border-radius: 8px;
     }
 
-    .toc h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      color: var(--color-accent);
-    }
+    .toc h2 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--color-accent); }
 
-    .toc-list {
-      list-style: none;
-      columns: 2;
-      column-gap: 2rem;
-    }
+    .toc-list { list-style: none; columns: 2; column-gap: 2rem; }
 
     .toc-list li {
       padding: 0.4rem 0;
@@ -141,30 +212,57 @@
       border-radius: 0 8px 8px 0;
     }
 
-    .section-header h2 {
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      color: var(--color-text);
-      margin-bottom: 0.5rem;
-    }
-
-    .section-header .section-desc {
-      color: var(--color-muted);
-      font-style: italic;
-    }
+    .section-header h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); color: var(--color-text); margin-bottom: 0.5rem; }
+    .section-header .section-desc { color: var(--color-muted); font-style: italic; }
 
     /* ─── Recipe Card ───────────────────────────────────────────────────── */
-    .recipe-card {
-      margin-bottom: 4rem;
-      padding-bottom: 3rem;
-      border-bottom: 1px solid var(--color-border);
-    }
-
+    .recipe-card { margin-bottom: 4rem; padding-bottom: 3rem; border-bottom: 1px solid var(--color-border); }
     .recipe-card:last-child { border-bottom: none; }
 
-    /* Header row: image + title block */
-    .recipe-card__header {
+    /* Image stack */
+    .recipe-image-wrap {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      border-radius: 10px;
+      overflow: hidden;
       margin-bottom: 1.5rem;
     }
+
+    .recipe-image--bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .recipe-image__emoji {
+      font-size: 5rem;
+      line-height: 1;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.18));
+    }
+
+    .recipe-image__label {
+      font-family: var(--font-heading);
+      font-style: italic;
+      color: rgba(0,0,0,0.5);
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+
+    .recipe-image--photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Header */
+    .recipe-card__header { margin-bottom: 1.5rem; }
 
     .recipe-card__title {
       font-size: clamp(1.5rem, 3vw, 2rem);
@@ -172,51 +270,8 @@
       margin-bottom: 0.75rem;
     }
 
-    /* Image */
-    .recipe-image {
-      width: 100%;
-      max-height: 380px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 1.5rem;
-      display: block;
-    }
-
-    .recipe-image--placeholder {
-      width: 100%;
-      height: 240px;
-      background: linear-gradient(135deg, #FDF6F0 0%, #F0EBE3 50%, #E8DDD0 100%);
-      border-radius: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-      gap: 0.75rem;
-      border: 1px solid var(--color-border);
-    }
-
-    .recipe-image__emoji {
-      font-size: 4.5rem;
-      line-height: 1;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
-    }
-
-    .recipe-image__label {
-      font-family: var(--font-heading);
-      font-style: italic;
-      color: var(--color-muted);
-      font-size: 0.9rem;
-      letter-spacing: 0.02em;
-    }
-
-    /* Metadata badges */
-    .recipe-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
-    }
+    /* Badges */
+    .recipe-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
 
     .badge {
       display: inline-block;
@@ -229,7 +284,7 @@
       color: white;
     }
 
-    .badge--green  { background: var(--color-accent-2, #7D9E4A); color: white; }
+    .badge--green   { background: var(--color-accent-2, #7D9E4A); color: white; }
     .badge--neutral { background: var(--color-border); color: var(--color-text); }
     .badge--outline { background: transparent; border: 1px solid var(--color-accent); color: var(--color-accent); }
 
@@ -244,13 +299,8 @@
 
     .recipe-ratings span strong { color: var(--color-text); }
 
-    /* Body: ingredients + method */
-    .recipe-body {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 2rem;
-      margin-bottom: 1.5rem;
-    }
+    /* Body */
+    .recipe-body { display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; margin-bottom: 1.5rem; }
 
     .recipe-body h4 {
       font-size: 0.875rem;
@@ -260,29 +310,15 @@
       margin-bottom: 0.75rem;
     }
 
-    .recipe-ingredients ul {
-      list-style: none;
-      padding: 0;
-    }
+    .recipe-ingredients ul { list-style: none; padding: 0; }
 
-    .recipe-ingredients li {
-      padding: 0.35rem 0;
-      border-bottom: 1px solid var(--color-border);
-      font-size: 0.9375rem;
-    }
-
+    .recipe-ingredients li { padding: 0.35rem 0; border-bottom: 1px solid var(--color-border); font-size: 0.9375rem; }
     .recipe-ingredients li:last-child { border-bottom: none; }
 
-    .recipe-method ol {
-      padding-left: 1.25rem;
-    }
+    .recipe-method ol { padding-left: 1.25rem; }
+    .recipe-method li { padding: 0.4rem 0; font-size: 0.9375rem; }
 
-    .recipe-method li {
-      padding: 0.4rem 0;
-      font-size: 0.9375rem;
-    }
-
-    /* Nathan tweaks callout */
+    /* Nathan tweaks */
     .nathan-tweaks {
       background: var(--color-tweaks-bg);
       border-left: 4px solid var(--color-tweaks-bd);
@@ -302,25 +338,12 @@
       margin-bottom: 0.4rem;
     }
 
-    /* Footer fields */
-    .recipe-footer {
-      margin-top: 1rem;
-      font-size: 0.875rem;
-      color: var(--color-muted);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
+    /* Footer */
+    .recipe-footer { margin-top: 1rem; font-size: 0.875rem; color: var(--color-muted); display: flex; flex-wrap: wrap; gap: 1rem; }
     .recipe-footer strong { color: var(--color-text); }
 
-    /* Tags row */
-    .recipe-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 1rem;
-    }
+    /* Tags */
+    .recipe-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
 
     .tag {
       display: inline-block;
@@ -340,30 +363,11 @@
       margin-bottom: 2rem;
     }
 
-    .full-meal-card h3 {
-      font-size: 1.5rem;
-      color: var(--color-text);
-      margin-bottom: 0.5rem;
-    }
+    .full-meal-card h3 { font-size: 1.5rem; color: var(--color-text); margin-bottom: 0.5rem; }
+    .full-meal-card .meal-description { color: var(--color-muted); font-style: italic; margin-bottom: 1rem; }
+    .full-meal-card .meal-meta { font-size: 0.875rem; color: var(--color-muted); margin-bottom: 1rem; display: flex; gap: 1.5rem; }
 
-    .full-meal-card .meal-description {
-      color: var(--color-muted);
-      font-style: italic;
-      margin-bottom: 1rem;
-    }
-
-    .full-meal-card .meal-meta {
-      font-size: 0.875rem;
-      color: var(--color-muted);
-      margin-bottom: 1rem;
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .full-meal-card .component-list {
-      list-style: none;
-      margin-bottom: 1rem;
-    }
+    .full-meal-card .component-list { list-style: none; margin-bottom: 1rem; }
 
     .full-meal-card .component-list li {
       padding: 0.35rem 0;
@@ -374,44 +378,19 @@
     }
 
     .full-meal-card .component-list li:last-child { border-bottom: none; }
-
     .full-meal-card .component-list a { color: var(--color-text); }
     .full-meal-card .component-list a:hover { color: var(--color-accent); }
 
     .component-icon { color: var(--color-accent-2); font-weight: bold; }
 
-    .meal-notes {
-      background: var(--color-section-bg);
-      padding: 0.75rem 1rem;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      margin-top: 0.75rem;
-    }
+    .meal-notes { background: var(--color-section-bg); padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.9rem; margin-top: 0.75rem; }
 
-    .occasion-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.75rem;
-    }
+    .occasion-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem; }
 
     /* ─── Recipe Index ──────────────────────────────────────────────────── */
-    .recipe-index {
-      margin-top: 4rem;
-    }
-
-    .recipe-index h2 {
-      font-size: 2rem;
-      margin-bottom: 1.5rem;
-      color: var(--color-text);
-    }
-
-    .recipe-index table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
-
+    .recipe-index { margin-top: 4rem; }
+    .recipe-index h2 { font-size: 2rem; margin-bottom: 1.5rem; color: var(--color-text); }
+    .recipe-index table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
     .recipe-index th {
       background: var(--color-accent);
       color: white;
@@ -424,42 +403,446 @@
       text-transform: uppercase;
     }
 
-    .recipe-index td {
-      padding: 0.5rem 0.75rem;
-      border-bottom: 1px solid var(--color-border);
-      vertical-align: middle;
-    }
-
+    .recipe-index td { padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
     .recipe-index tr:nth-child(even) td { background: var(--color-section-bg); }
     .recipe-index tr:hover td { background: #f0e8de; }
 
+    /* ─── Search Panel ──────────────────────────────────────────────────── */
+    .search-sticky {
+      position: sticky;
+      top: var(--nav-height);
+      background: var(--color-bg);
+      z-index: 100;
+      padding: 1rem 0 0.75rem;
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: 1.25rem;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--color-border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: var(--font-body);
+      background: white;
+      color: var(--color-text);
+      margin-bottom: 0.75rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .search-input:focus { border-color: var(--color-accent); }
+
+    .filter-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .chip {
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--color-border);
+      background: white;
+      color: var(--color-muted);
+      font-size: 0.8rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .chip:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .chip.active { background: var(--color-accent); border-color: var(--color-accent); color: white; }
+
+    .search-count { font-size: 0.8rem; color: var(--color-muted); margin-bottom: 0.5rem; }
+
+    .search-results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      padding-bottom: 3rem;
+    }
+
+    .search-card {
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--color-text);
+      transition: transform 0.15s, box-shadow 0.15s;
+      cursor: pointer;
+    }
+
+    .search-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      text-decoration: none;
+    }
+
+    .search-card__image {
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.25rem;
+      flex-shrink: 0;
+    }
+
+    .search-card__body { padding: 0.875rem; }
+
+    .search-card__title {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .search-card__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      color: var(--color-muted);
+      align-items: center;
+    }
+
+    .search-card__meta .badge { font-size: 0.7rem; padding: 2px 7px; }
+
+    .no-results {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: var(--color-muted);
+      padding: 3rem;
+      font-style: italic;
+    }
+
+    /* ─── Meal Builder Panel ────────────────────────────────────────────── */
+    .builder-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      padding: 1.5rem 0 3rem;
+      align-items: start;
+    }
+
+    .builder-section-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--color-border);
+    }
+
+    .meals-list { display: flex; flex-direction: column; gap: 1rem; }
+
+    .meal-mini-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+
+    .meal-mini-card h4 {
+      font-size: 1rem;
+      color: var(--color-text);
+      margin-bottom: 0.25rem;
+    }
+
+    .meal-mini-card .meal-desc {
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      font-style: italic;
+      margin-bottom: 0.5rem;
+    }
+
+    .meal-mini-card .meal-meta {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .meal-mini-card .component-list {
+      list-style: none;
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .meal-mini-card .component-list li {
+      padding: 0.2rem 0;
+      color: var(--color-muted);
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .meal-mini-card .component-list .arrow { color: var(--color-accent-2); }
+
+    .meal-mini-card .meal-notes {
+      font-size: 0.8rem;
+      background: var(--color-section-bg);
+      padding: 0.5rem 0.75rem;
+      border-radius: 4px;
+      margin-top: 0.5rem;
+    }
+
+    .meal-mini-card .occasion-tags { margin-top: 0.5rem; }
+
+    .custom-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      background: var(--color-accent-2);
+      color: white;
+      border-radius: 10px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      vertical-align: middle;
+      margin-left: 0.4rem;
+    }
+
+    /* Form styles */
+    .meal-form-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+
+    .form-group { margin-bottom: 1rem; }
+
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-muted);
+      margin-bottom: 0.3rem;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      font-size: 0.9375rem;
+      font-family: var(--font-body);
+      color: var(--color-text);
+      background: var(--color-bg);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .form-input:focus, .form-textarea:focus { border-color: var(--color-accent); background: white; }
+
+    .form-textarea { resize: vertical; min-height: 70px; }
+
+    .recipe-checkboxes {
+      max-height: 260px;
+      overflow-y: auto;
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      padding: 0.4rem;
+      background: var(--color-bg);
+    }
+
+    .recipe-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.5rem;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      user-select: none;
+    }
+
+    .recipe-checkbox:hover { background: var(--color-section-bg); }
+    .recipe-checkbox input { cursor: pointer; accent-color: var(--color-accent); }
+
+    .recipe-checkbox__meta {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: var(--color-muted);
+      white-space: nowrap;
+    }
+
+    .meal-json-panel {
+      display: none;
+      margin-top: 1rem;
+      background: #1e1e1e;
+      color: #d4d4d4;
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .meal-json-panel pre { font-size: 0.78rem; overflow-x: auto; white-space: pre-wrap; }
+
+    .meal-json-actions { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
+
+    .empty-state { color: var(--color-muted); font-style: italic; font-size: 0.9rem; padding: 1rem 0; }
+
+    /* ─── Discover Panel ────────────────────────────────────────────────── */
+    .discover-header { padding: 1.5rem 0 1.25rem; }
+
+    .discover-header h2 {
+      font-size: 1.75rem;
+      color: var(--color-text);
+      margin-bottom: 0.4rem;
+    }
+
+    .discover-header p {
+      color: var(--color-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .source-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+
+    .source-btn {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: 2px solid var(--color-border);
+      background: white;
+      color: var(--color-muted);
+      font-size: 0.875rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .source-btn:hover { border-color: var(--color-accent); color: var(--color-accent); }
+    .source-btn.active { background: var(--color-accent); border-color: var(--color-accent); color: white; }
+
+    .discover-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center; }
+
+    .discover-count { font-size: 0.8rem; color: var(--color-muted); }
+
+    .discover-card-area { min-height: 200px; }
+
+    .discover-recipe-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      overflow: hidden;
+      max-width: 580px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .discover-image {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .discover-body { padding: 1.5rem; }
+
+    .discover-source-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      background: var(--color-accent);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .discover-title {
+      font-size: 1.4rem;
+      font-family: var(--font-heading);
+      margin-bottom: 0.6rem;
+      line-height: 1.3;
+    }
+
+    .discover-desc {
+      color: var(--color-muted);
+      font-size: 0.9375rem;
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .discover-card-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    .discover-empty, .discover-loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--color-muted);
+    }
+
+    .discover-loading { animation: pulse 1.5s ease-in-out infinite; }
+
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .discover-empty p { margin-bottom: 0.5rem; }
+
+    .discover-tip {
+      margin-top: 1.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--color-section-bg);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      border-left: 3px solid var(--color-accent-2);
+    }
+
     /* ─── Print ─────────────────────────────────────────────────────────── */
     @media print {
+      .app-nav, #panel-search, #panel-builder, #panel-discover { display: none !important; }
+      #panel-cookbook { display: block !important; }
       body { font-size: 11pt; background: white; }
-
       .cover-page { page-break-after: always; min-height: auto; padding: 3cm 2cm; }
       .toc { page-break-after: always; background: none; border: 1px solid #ccc; }
       .section-header { page-break-before: always; background: none; }
       .recipe-card { page-break-inside: avoid; }
       .full-meal-card { page-break-inside: avoid; }
-
       a { color: inherit; text-decoration: none; }
       .badge { border: 1px solid currentColor; background: none; color: inherit; }
-
       .recipe-body { display: grid; grid-template-columns: 1fr 2fr; }
     }
 
     /* ─── Responsive ────────────────────────────────────────────────────── */
     @media (max-width: 640px) {
+      .app-nav__brand { display: none; }
       .recipe-body { grid-template-columns: 1fr; }
       .toc-list { columns: 1; }
+      .builder-layout { grid-template-columns: 1fr; }
+      .search-results-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      .search-card__image { height: 100px; font-size: 2.5rem; }
     }
   </style>
 </head>
 <body>
+
+<!-- ── App Navigation ─────────────────────────────────────────────── -->
+<nav class="app-nav">
+  <div class="app-nav__inner">
+    <a class="app-nav__brand" href="#" onclick="showTab('cookbook');return false;">🍽️ Bennett</a>
+    <div class="app-nav__tabs">
+      <button class="tab-btn active" id="tab-cookbook"  onclick="showTab('cookbook')">📖 Cookbook</button>
+      <button class="tab-btn"        id="tab-search"    onclick="showTab('search')">🔍 Search</button>
+      <button class="tab-btn"        id="tab-builder"   onclick="showTab('builder')">🍽️ Meal Builder</button>
+      <button class="tab-btn"        id="tab-discover"  onclick="showTab('discover')">🌐 Discover</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- PANEL: Cookbook                                                      -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div id="panel-cookbook" class="panel active">
 <div class="page-wrap">
 
-  <!-- ── Cover ─────────────────────────────────────────────── -->
+  <!-- Cover -->
   <div class="cover-page">
     <p class="overline">A Family Recipe Collection</p>
     <h1 class="cookbook-title">The Bennett Cookbook</h1>
@@ -468,7 +851,7 @@
     <p class="cover-meta">8 recipes &nbsp;·&nbsp; 3 full meal builds &nbsp;·&nbsp; Generated 13 May 2026</p>
   </div>
 
-  <!-- ── Table of Contents ──────────────────────────────────── -->
+  <!-- Table of Contents -->
   <div class="toc">
     <h2>Contents</h2>
     <ul class="toc-list">
@@ -534,7 +917,7 @@
     </ul>
   </div>
 
-  <!-- ── Recipe Sections ────────────────────────────────────── -->
+  <!-- Recipe Sections -->
   
   
   <section id="section-weeknight-winners">
@@ -544,18 +927,23 @@
     
       <article class="recipe-card" id="recipe-tuna-pasta-roasted-tomatoes">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/Pvclb-iHHYY/800x500"
-       alt="10/10 Tuna Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍝</span>
-    <span class="recipe-image__label">10/10 Tuna Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🍝</span>
+      <span class="recipe-image__label">10/10 Tuna Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/Pvclb-iHHYY/800x500"
+         alt="10/10 Tuna Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -651,9 +1039,6 @@
     <div><strong>Pairs well with:</strong> Garlic bread, Rocket and parmesan salad, Strawberries or simple dessert</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of spaghetti with roasted cherry tomatoes, tuna and kalamata olives in a white ceramic bowl, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -667,18 +1052,23 @@
     
       <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
-       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🐟</span>
-    <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#89CFF0 0%,#2196A8 100%)">
+      <span class="recipe-image__emoji">🐟</span>
+      <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
+         alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -778,9 +1168,6 @@
     <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -794,18 +1181,23 @@
     
       <article class="recipe-card" id="recipe-hidden-zucchini-pesto-pasta">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/12eHC6FxPyg/800x500"
-       alt="Hidden Zucchini Pesto Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🌿</span>
-    <span class="recipe-image__label">Hidden Zucchini Pesto Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🌿</span>
+      <span class="recipe-image__label">Hidden Zucchini Pesto Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/12eHC6FxPyg/800x500"
+         alt="Hidden Zucchini Pesto Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -893,9 +1285,6 @@
     <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pesto pasta in a wide bowl with visible zucchini, cherry tomatoes and fresh basil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -909,18 +1298,23 @@
     
       <article class="recipe-card" id="recipe-tomato-herb-pasta">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/PLyJqEJVre0/800x500"
-       alt="Tomato Herb Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍅</span>
-    <span class="recipe-image__label">Tomato Herb Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🍅</span>
+      <span class="recipe-image__label">Tomato Herb Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/PLyJqEJVre0/800x500"
+         alt="Tomato Herb Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1004,9 +1398,6 @@
     <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pasta with roasted cherry tomatoes and fresh herbs in a wide bowl, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -1020,18 +1411,23 @@
     
       <article class="recipe-card" id="recipe-charred-broccolini">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/YTw7O_IY4l0/800x500"
-       alt="Charred Broccolini"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🥦</span>
-    <span class="recipe-image__label">Charred Broccolini</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#D4A373 0%,#8B5E3C 100%)">
+      <span class="recipe-image__emoji">🥦</span>
+      <span class="recipe-image__label">Charred Broccolini</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/YTw7O_IY4l0/800x500"
+         alt="Charred Broccolini"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1105,9 +1501,6 @@
     <div><strong>Pairs well with:</strong> Miso salmon, Any protein, Lemon and sea salt</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of charred broccolini on a white ceramic plate, lemon wedge alongside, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -1121,18 +1514,23 @@
     
       <article class="recipe-card" id="recipe-lemon-garlic-yoghurt">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/NFHeBysjCTI/800x500"
-       alt="Lemon Garlic Yoghurt"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍋</span>
-    <span class="recipe-image__label">Lemon Garlic Yoghurt</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#D4A373 0%,#8B5E3C 100%)">
+      <span class="recipe-image__emoji">🍋</span>
+      <span class="recipe-image__label">Lemon Garlic Yoghurt</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/NFHeBysjCTI/800x500"
+         alt="Lemon Garlic Yoghurt"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1205,9 +1603,6 @@
     
     <div><strong>Pairs well with:</strong> Shakshouka, Roasted vegetables, Falafel, Any Middle Eastern spread</div>
     
-    
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of lemon garlic yoghurt in a small white bowl with a drizzle of olive oil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
     
   </div>
 
@@ -1231,18 +1626,23 @@
     
       <article class="recipe-card" id="recipe-tuna-pasta-roasted-tomatoes">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/Pvclb-iHHYY/800x500"
-       alt="10/10 Tuna Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍝</span>
-    <span class="recipe-image__label">10/10 Tuna Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🍝</span>
+      <span class="recipe-image__label">10/10 Tuna Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/Pvclb-iHHYY/800x500"
+         alt="10/10 Tuna Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1338,9 +1738,6 @@
     <div><strong>Pairs well with:</strong> Garlic bread, Rocket and parmesan salad, Strawberries or simple dessert</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of spaghetti with roasted cherry tomatoes, tuna and kalamata olives in a white ceramic bowl, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -1354,18 +1751,23 @@
     
       <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
-       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🐟</span>
-    <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#89CFF0 0%,#2196A8 100%)">
+      <span class="recipe-image__emoji">🐟</span>
+      <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
+         alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1465,9 +1867,6 @@
     <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -1481,18 +1880,23 @@
     
       <article class="recipe-card" id="recipe-hidden-zucchini-pesto-pasta">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/12eHC6FxPyg/800x500"
-       alt="Hidden Zucchini Pesto Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🌿</span>
-    <span class="recipe-image__label">Hidden Zucchini Pesto Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🌿</span>
+      <span class="recipe-image__label">Hidden Zucchini Pesto Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/12eHC6FxPyg/800x500"
+         alt="Hidden Zucchini Pesto Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1580,9 +1984,6 @@
     <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pesto pasta in a wide bowl with visible zucchini, cherry tomatoes and fresh basil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -1596,18 +1997,23 @@
     
       <article class="recipe-card" id="recipe-vegetarian-lasagna">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/WpnGOZ3C5uU/800x500"
-       alt="Vegetarian Lasagna"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🫕</span>
-    <span class="recipe-image__label">Vegetarian Lasagna</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#95D5B2 0%,#52B788 100%)">
+      <span class="recipe-image__emoji">🫕</span>
+      <span class="recipe-image__label">Vegetarian Lasagna</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/WpnGOZ3C5uU/800x500"
+         alt="Vegetarian Lasagna"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1713,9 +2119,6 @@
     <div><strong>Pairs well with:</strong> Rocket and parmesan salad, Garlic bread, Good red wine</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of a slice of vegetarian lasagna served on a white plate, layers visible, golden top, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -1729,18 +2132,23 @@
     
       <article class="recipe-card" id="recipe-tomato-herb-pasta">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/PLyJqEJVre0/800x500"
-       alt="Tomato Herb Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍅</span>
-    <span class="recipe-image__label">Tomato Herb Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🍅</span>
+      <span class="recipe-image__label">Tomato Herb Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/PLyJqEJVre0/800x500"
+         alt="Tomato Herb Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1823,9 +2231,6 @@
     
     <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
     
-    
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pasta with roasted cherry tomatoes and fresh herbs in a wide bowl, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
     
   </div>
 
@@ -1849,18 +2254,23 @@
     
       <article class="recipe-card" id="recipe-tuna-pasta-roasted-tomatoes">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/Pvclb-iHHYY/800x500"
-       alt="10/10 Tuna Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍝</span>
-    <span class="recipe-image__label">10/10 Tuna Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🍝</span>
+      <span class="recipe-image__label">10/10 Tuna Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/Pvclb-iHHYY/800x500"
+         alt="10/10 Tuna Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -1956,9 +2366,6 @@
     <div><strong>Pairs well with:</strong> Garlic bread, Rocket and parmesan salad, Strawberries or simple dessert</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of spaghetti with roasted cherry tomatoes, tuna and kalamata olives in a white ceramic bowl, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -1972,18 +2379,23 @@
     
       <article class="recipe-card" id="recipe-hidden-zucchini-pesto-pasta">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/12eHC6FxPyg/800x500"
-       alt="Hidden Zucchini Pesto Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🌿</span>
-    <span class="recipe-image__label">Hidden Zucchini Pesto Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🌿</span>
+      <span class="recipe-image__label">Hidden Zucchini Pesto Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/12eHC6FxPyg/800x500"
+         alt="Hidden Zucchini Pesto Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -2071,9 +2483,6 @@
     <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pesto pasta in a wide bowl with visible zucchini, cherry tomatoes and fresh basil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -2087,18 +2496,23 @@
     
       <article class="recipe-card" id="recipe-tomato-herb-pasta">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/PLyJqEJVre0/800x500"
-       alt="Tomato Herb Pasta"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍅</span>
-    <span class="recipe-image__label">Tomato Herb Pasta</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#F4A261 0%,#E76F51 100%)">
+      <span class="recipe-image__emoji">🍅</span>
+      <span class="recipe-image__label">Tomato Herb Pasta</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/PLyJqEJVre0/800x500"
+         alt="Tomato Herb Pasta"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -2182,9 +2596,6 @@
     <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pasta with roasted cherry tomatoes and fresh herbs in a wide bowl, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -2207,18 +2618,23 @@
     
       <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
-       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🐟</span>
-    <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#89CFF0 0%,#2196A8 100%)">
+      <span class="recipe-image__emoji">🐟</span>
+      <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
+         alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -2317,9 +2733,6 @@
     
     <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
     
-    
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
     
   </div>
 
@@ -2343,18 +2756,23 @@
     
       <article class="recipe-card" id="recipe-vegetarian-lasagna">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/WpnGOZ3C5uU/800x500"
-       alt="Vegetarian Lasagna"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🫕</span>
-    <span class="recipe-image__label">Vegetarian Lasagna</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#95D5B2 0%,#52B788 100%)">
+      <span class="recipe-image__emoji">🫕</span>
+      <span class="recipe-image__label">Vegetarian Lasagna</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/WpnGOZ3C5uU/800x500"
+         alt="Vegetarian Lasagna"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -2460,9 +2878,6 @@
     <div><strong>Pairs well with:</strong> Rocket and parmesan salad, Garlic bread, Good red wine</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of a slice of vegetarian lasagna served on a white plate, layers visible, golden top, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -2485,18 +2900,23 @@
     
       <article class="recipe-card" id="recipe-shakshouka-feast">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/rzPVSqQjjqs/800x500"
-       alt="Shakshouka Feast"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍳</span>
-    <span class="recipe-image__label">Shakshouka Feast</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#FFE08A 0%,#F59E0B 100%)">
+      <span class="recipe-image__emoji">🍳</span>
+      <span class="recipe-image__label">Shakshouka Feast</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/rzPVSqQjjqs/800x500"
+         alt="Shakshouka Feast"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -2600,9 +3020,6 @@
     <div><strong>Pairs well with:</strong> Lemon garlic yoghurt, Sliced avocado, Good sourdough or pita, Simple herb salad</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of shakshouka in a cast iron pan with six eggs, served on a table spread with yoghurt, avocado and bread, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -2625,18 +3042,23 @@
     
       <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
-       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🐟</span>
-    <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#89CFF0 0%,#2196A8 100%)">
+      <span class="recipe-image__emoji">🐟</span>
+      <span class="recipe-image__label">Miso Salmon with Coconut Rice and Charred Broccolini</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/hEeA50ZHo4o/800x500"
+         alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -2736,9 +3158,6 @@
     <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -2752,18 +3171,23 @@
     
       <article class="recipe-card" id="recipe-shakshouka-feast">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/rzPVSqQjjqs/800x500"
-       alt="Shakshouka Feast"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍳</span>
-    <span class="recipe-image__label">Shakshouka Feast</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#FFE08A 0%,#F59E0B 100%)">
+      <span class="recipe-image__emoji">🍳</span>
+      <span class="recipe-image__label">Shakshouka Feast</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/rzPVSqQjjqs/800x500"
+         alt="Shakshouka Feast"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -2867,9 +3291,6 @@
     <div><strong>Pairs well with:</strong> Lemon garlic yoghurt, Sliced avocado, Good sourdough or pita, Simple herb salad</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of shakshouka in a cast iron pan with six eggs, served on a table spread with yoghurt, avocado and bread, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -2883,18 +3304,23 @@
     
       <article class="recipe-card" id="recipe-vegetarian-lasagna">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/WpnGOZ3C5uU/800x500"
-       alt="Vegetarian Lasagna"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🫕</span>
-    <span class="recipe-image__label">Vegetarian Lasagna</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#95D5B2 0%,#52B788 100%)">
+      <span class="recipe-image__emoji">🫕</span>
+      <span class="recipe-image__label">Vegetarian Lasagna</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/WpnGOZ3C5uU/800x500"
+         alt="Vegetarian Lasagna"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -3000,9 +3426,6 @@
     <div><strong>Pairs well with:</strong> Rocket and parmesan salad, Garlic bread, Good red wine</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of a slice of vegetarian lasagna served on a white plate, layers visible, golden top, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -3016,18 +3439,23 @@
     
       <article class="recipe-card" id="recipe-charred-broccolini">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/YTw7O_IY4l0/800x500"
-       alt="Charred Broccolini"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🥦</span>
-    <span class="recipe-image__label">Charred Broccolini</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#D4A373 0%,#8B5E3C 100%)">
+      <span class="recipe-image__emoji">🥦</span>
+      <span class="recipe-image__label">Charred Broccolini</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/YTw7O_IY4l0/800x500"
+         alt="Charred Broccolini"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -3101,9 +3529,6 @@
     <div><strong>Pairs well with:</strong> Miso salmon, Any protein, Lemon and sea salt</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of charred broccolini on a white ceramic plate, lemon wedge alongside, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -3117,18 +3542,23 @@
     
       <article class="recipe-card" id="recipe-lemon-garlic-yoghurt">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/NFHeBysjCTI/800x500"
-       alt="Lemon Garlic Yoghurt"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍋</span>
-    <span class="recipe-image__label">Lemon Garlic Yoghurt</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#D4A373 0%,#8B5E3C 100%)">
+      <span class="recipe-image__emoji">🍋</span>
+      <span class="recipe-image__label">Lemon Garlic Yoghurt</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/NFHeBysjCTI/800x500"
+         alt="Lemon Garlic Yoghurt"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -3201,9 +3631,6 @@
     
     <div><strong>Pairs well with:</strong> Shakshouka, Roasted vegetables, Falafel, Any Middle Eastern spread</div>
     
-    
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of lemon garlic yoghurt in a small white bowl with a drizzle of olive oil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
     
   </div>
 
@@ -3227,18 +3654,23 @@
     
       <article class="recipe-card" id="recipe-charred-broccolini">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/YTw7O_IY4l0/800x500"
-       alt="Charred Broccolini"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🥦</span>
-    <span class="recipe-image__label">Charred Broccolini</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#D4A373 0%,#8B5E3C 100%)">
+      <span class="recipe-image__emoji">🥦</span>
+      <span class="recipe-image__label">Charred Broccolini</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/YTw7O_IY4l0/800x500"
+         alt="Charred Broccolini"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -3312,9 +3744,6 @@
     <div><strong>Pairs well with:</strong> Miso salmon, Any protein, Lemon and sea salt</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of charred broccolini on a white ceramic plate, lemon wedge alongside, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -3328,18 +3757,23 @@
     
       <article class="recipe-card" id="recipe-lemon-garlic-yoghurt">
 
-  <!-- Image -->
+  <!-- Image: themed gradient always visible; real photo overlays if it loads -->
   
   
-  <img src="https://source.unsplash.com/NFHeBysjCTI/800x500"
-       alt="Lemon Garlic Yoghurt"
-       class="recipe-image"
-       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-  <div class="recipe-image recipe-image--placeholder" style="display:none">
-    <span class="recipe-image__emoji">🍋</span>
-    <span class="recipe-image__label">Lemon Garlic Yoghurt</span>
+  
+
+  <div class="recipe-image-wrap">
+    <div class="recipe-image--bg" style="background:linear-gradient(135deg,#D4A373 0%,#8B5E3C 100%)">
+      <span class="recipe-image__emoji">🍋</span>
+      <span class="recipe-image__label">Lemon Garlic Yoghurt</span>
+    </div>
+    
+    <img src="https://source.unsplash.com/NFHeBysjCTI/800x500"
+         alt="Lemon Garlic Yoghurt"
+         class="recipe-image--photo"
+         loading="lazy">
+    
   </div>
-  
 
   <!-- Title -->
   <div class="recipe-card__header">
@@ -3413,9 +3847,6 @@
     <div><strong>Pairs well with:</strong> Shakshouka, Roasted vegetables, Falafel, Any Middle Eastern spread</div>
     
     
-    
-    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of lemon garlic yoghurt in a small white bowl with a drizzle of olive oil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
-    
   </div>
 
   <!-- Tags -->
@@ -3431,7 +3862,7 @@
   
   
 
-  <!-- ── Full Meal Builds ───────────────────────────────────── -->
+  <!-- Full Meal Builds -->
   <section id="section-full-meal-builds">
     <div class="section-header">
       <h2>Full Meal Builds</h2>
@@ -3549,18 +3980,13 @@
     
   </section>
 
-  <!-- ── Recipe Index ───────────────────────────────────────── -->
+  <!-- Recipe Index -->
   <section class="recipe-index" id="section-recipe-index">
     <h2>Recipe Index</h2>
     <table>
       <thead>
         <tr>
-          <th>Recipe</th>
-          <th>Category</th>
-          <th>Cuisine</th>
-          <th>Serves</th>
-          <th>Time</th>
-          <th>Difficulty</th>
+          <th>Recipe</th><th>Category</th><th>Cuisine</th><th>Serves</th><th>Time</th><th>Difficulty</th>
         </tr>
       </thead>
       <tbody>
@@ -3642,5 +4068,518 @@
   </section>
 
 </div><!-- /page-wrap -->
+</div><!-- /panel-cookbook -->
+
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- PANEL: Search                                                        -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div id="panel-search" class="panel">
+<div class="page-wrap">
+
+  <div class="search-sticky">
+    <input type="search" id="search-input" class="search-input"
+           placeholder="Search by name, ingredient, category, tag…"
+           oninput="filterRecipes()" autocomplete="off" autocorrect="off" spellcheck="false">
+    <div class="filter-chips" id="filter-chips">
+      <button class="chip active" data-filter="all"        onclick="setChip(this)">All</button>
+      <button class="chip"        data-filter="weeknight"  onclick="setChip(this)">⚡ Weeknight</button>
+      <button class="chip"        data-filter="family"     onclick="setChip(this)">👨‍👩‍👧 Family</button>
+      <button class="chip"        data-filter="pasta"      onclick="setChip(this)">🍝 Pasta</button>
+      <button class="chip"        data-filter="seafood"    onclick="setChip(this)">🐟 Seafood</button>
+      <button class="chip"        data-filter="vegetarian" onclick="setChip(this)">🥦 Vegetarian</button>
+      <button class="chip"        data-filter="brunch"     onclick="setChip(this)">🍳 Brunch</button>
+      <button class="chip"        data-filter="easy"       onclick="setChip(this)">✓ Easy</button>
+      <button class="chip"        data-filter="quick"      onclick="setChip(this)">⏱ Under 30min</button>
+      <button class="chip"        data-filter="kid"        onclick="setChip(this)">👶 Kid Friendly</button>
+    </div>
+  </div>
+
+  <p class="search-count" id="search-count"></p>
+  <div class="search-results-grid" id="search-results"></div>
+
+</div>
+</div><!-- /panel-search -->
+
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- PANEL: Meal Builder                                                  -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div id="panel-builder" class="panel">
+<div class="page-wrap">
+
+  <div style="padding: 1.5rem 0 0.5rem">
+    <h2 style="font-size:1.75rem; margin-bottom:0.3rem">🍽️ Meal Builder</h2>
+    <p style="color:var(--color-muted); font-size:0.9rem">Combine recipes into a full meal plan. Custom meals are saved in your browser.</p>
+  </div>
+
+  <div class="builder-layout">
+
+    <!-- Left: existing meals -->
+    <div>
+      <div class="builder-section-title">Saved Meals</div>
+      <div class="meals-list" id="meals-list">
+        <p class="empty-state">Loading…</p>
+      </div>
+    </div>
+
+    <!-- Right: create form -->
+    <div>
+      <div class="builder-section-title">Create a New Meal</div>
+      <div class="meal-form-card">
+        <form id="meal-form" onsubmit="saveMeal(event)">
+
+          <div class="form-group">
+            <label for="meal-name">Meal Name *</label>
+            <input type="text" id="meal-name" class="form-input" placeholder="e.g. Sunday Italian Night" required>
+          </div>
+
+          <div class="form-group">
+            <label for="meal-serves">Serves</label>
+            <input type="text" id="meal-serves" class="form-input" placeholder="4" value="4">
+          </div>
+
+          <div class="form-group">
+            <label>Recipes to include</label>
+            <div class="recipe-checkboxes" id="recipe-checkboxes">
+              <p class="empty-state" style="padding:0.5rem">Loading…</p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="meal-occasions">Occasions <span style="font-weight:400;text-transform:none">(comma separated)</span></label>
+            <input type="text" id="meal-occasions" class="form-input" placeholder="e.g. Sunday dinner, Entertaining">
+          </div>
+
+          <div class="form-group">
+            <label for="meal-notes">Notes</label>
+            <textarea id="meal-notes" class="form-textarea" placeholder="Timing tips, wine pairing, prep-ahead notes…"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn--primary" style="width:100%">Save Meal Plan</button>
+        </form>
+
+        <div class="meal-json-panel" id="meal-json-panel">
+          <div class="meal-json-actions">
+            <button class="btn btn--neutral" onclick="copyMealJson()" style="font-size:0.8rem">📋 Copy JSON</button>
+            <span style="font-size:0.75rem;color:#888;align-self:center">Paste into data/full_meals.json to make it permanent</span>
+          </div>
+          <pre id="meal-json-output"></pre>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /builder-layout -->
+</div>
+</div><!-- /panel-builder -->
+
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- PANEL: Discover                                                      -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<div id="panel-discover" class="panel">
+<div class="page-wrap">
+
+  <div class="discover-header">
+    <h2>Discover Recipes</h2>
+    <p>Browse random recipes from RecipeTin Eats and Ottolenghi to find your next favourite.</p>
+    <div class="source-buttons">
+      <button class="source-btn active" data-source="rte"        onclick="setSource(this)">RecipeTin Eats</button>
+      <button class="source-btn"        data-source="ottolenghi" onclick="setSource(this)">Ottolenghi</button>
+      <button class="source-btn"        data-source="both"       onclick="setSource(this)">Both</button>
+    </div>
+    <div class="discover-actions">
+      <button class="btn btn--primary" onclick="nextDiscover()">🎲 Random Recipe</button>
+      <button class="btn btn--outline" onclick="fetchLiveRecipes()">🔄 Load from web</button>
+      <span class="discover-count" id="discover-count"></span>
+    </div>
+  </div>
+
+  <div class="discover-card-area" id="discover-card">
+    <div class="discover-empty">
+      <p>Click <strong>Random Recipe</strong> to get started.</p>
+    </div>
+  </div>
+
+  <div class="discover-tip">
+    <strong>Tip:</strong> To save a recipe permanently, open it in the original site, then use the
+    <strong>Streamlit app</strong> (<code>streamlit run src/random_recipe_tin_eats.py</code>) to save it
+    as a reference in your cookbook.
+  </div>
+
+</div>
+</div><!-- /panel-discover -->
+
+
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<!-- JavaScript                                                           -->
+<!-- ════════════════════════════════════════════════════════════════════ -->
+<script>
+// ─── Embedded data ────────────────────────────────────────────────────
+const RECIPES    = [{"recipe_id": "tuna-pasta-roasted-tomatoes", "recipe_name": "10/10 Tuna Pasta", "record_type": "personal_recipe", "category": "Pasta", "cuisine": "Italian-inspired", "difficulty": "Easy", "tags": ["pasta", "seafood", "weeknight", "kid-friendly", "family-favourite", "quick", "pantry"], "prep_time_minutes": 10, "cook_time_minutes": 25, "total_time_minutes": 35, "serves": "4", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": 10.0, "entertaining_score": 6, "weeknight_score": 10, "ingredients": ["500g spaghetti", "2 x 185g tins tuna in olive oil, drained lightly", "500g cherry tomatoes", "3 garlic cloves, finely sliced", "1/2 cup kalamata olives, pitted and roughly chopped", "1/2 cup finely grated parmesan, plus extra to serve", "1/2 cup flat-leaf parsley, chopped", "1 lemon (optional)", "Olive oil", "Salt and black pepper"], "method": ["Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.", "Cook spaghetti in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.", "In a large pan, gently cook garlic in olive oil over medium heat for about 30 seconds until just golden.", "Add tuna and olives to the pan, keeping some texture in the tuna — don't mash it.", "Add the roasted tomatoes and their juices. Stir to combine.", "Add the drained pasta, parmesan and enough reserved pasta water to create a glossy, cohesive sauce.", "Finish with parsley, plenty of black pepper, and extra parmesan. Add a little lemon zest or juice only if the dish needs lift."], "nathan_tweaks": "Roasted tomatoes are non-negotiable — they concentrate and sweeten in a way pan-blistered ones never do. Olives belong in this dish; they're not too much. Keep it glossy, not dry — add pasta water generously. Tuna in olive oil is the move.", "substitutions": "Tinned salmon works as a swap. Add capers if you don't have olives. Linguine or rigatoni in place of spaghetti.", "pairings": ["Garlic bread", "Rocket and parmesan salad", "Strawberries or simple dessert"], "full_meal_id": "italian-family-night", "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of spaghetti with roasted cherry tomatoes, tuna and kalamata olives in a white ceramic bowl, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/Pvclb-iHHYY/800x500", "emoji": "🍝", "try_soon": false, "family_dinner_candidate": true, "entertaining_candidate": false, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}, {"recipe_id": "miso-salmon-coconut-rice", "recipe_name": "Miso Salmon with Coconut Rice and Charred Broccolini", "record_type": "personal_recipe", "category": "Seafood", "cuisine": "Asian-inspired", "difficulty": "Medium", "tags": ["seafood", "impressive", "family-favourite", "full-meal", "weeknight", "entertaining", "healthy-ish"], "prep_time_minutes": 15, "cook_time_minutes": 30, "total_time_minutes": 45, "serves": "4", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": null, "entertaining_score": 9, "weeknight_score": 8, "ingredients": ["4 salmon fillets (approx. 180g each)", "2 tbsp white miso paste", "1 tbsp soy sauce", "1 tbsp honey", "1 tsp sesame oil", "1 tsp fresh ginger, grated (optional)", "1.5 cups jasmine rice", "400ml coconut milk", "1 cup water", "1 tsp salt", "2 bunches broccolini", "Olive oil", "Salt", "Lemon wedges", "1/2 cucumber, thinly sliced (to serve)", "2 spring onions, sliced (to serve)", "1 tbsp sesame seeds (to serve)"], "method": ["Mix miso paste, soy sauce, honey and sesame oil together. Add grated ginger if using. Coat salmon fillets and leave to marinate for 15–30 minutes.", "Rinse jasmine rice until water runs clear. Combine rice, coconut milk, water and salt in a saucepan. Bring to a boil, reduce heat to low, cover and cook for 12 minutes. Remove from heat and leave covered for 5 minutes.", "Preheat oven to 200°C. Place marinated salmon on a lined baking tray. Roast for 12–15 minutes depending on thickness — it should be just cooked through with a slightly lacquered top.", "While salmon roasts, heat a large heavy pan or griddle until very hot. Toss broccolini with olive oil and salt. Char in the hot pan for 4–5 minutes, turning occasionally, until bright green and blistered in places.", "Serve salmon over coconut rice, broccolini alongside, with cucumber and spring onion scattered over the top. Finish with sesame seeds and a lemon wedge."], "nathan_tweaks": "The miso marinade is the whole point — don't skimp on the marinating time. Charred broccolini is the preferred green. This works as a complete dinner; everything is timed to come together at once if you start the rice first.", "substitutions": "Works with ocean trout or barramundi. Swap broccolini for broccolini or bok choy. Use regular short-grain rice if jasmine isn't available.", "pairings": ["Cucumber and spring onion garnish", "Sesame seeds", "Cold Sapporo or sake"], "full_meal_id": "salmon-dinner", "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/hEeA50ZHo4o/800x500", "emoji": "🐟", "try_soon": false, "family_dinner_candidate": true, "entertaining_candidate": true, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}, {"recipe_id": "shakshouka-feast", "recipe_name": "Shakshouka Feast", "record_type": "personal_recipe", "category": "Brunch & Breakfast", "cuisine": "Middle Eastern-inspired", "difficulty": "Medium", "tags": ["brunch", "vegetarian", "full-meal", "entertaining", "weekend", "impressive"], "prep_time_minutes": 15, "cook_time_minutes": 30, "total_time_minutes": 45, "serves": "4", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": null, "entertaining_score": 9, "weeknight_score": 5, "ingredients": ["1 onion, diced", "1 red capsicum, diced", "3 garlic cloves, minced", "2 tsp ground cumin", "1 tsp smoked paprika", "1/2 tsp chilli flakes (optional)", "800g crushed tomatoes (2 x 400g tins)", "6 eggs", "Olive oil", "Salt and black pepper", "Handful flat-leaf parsley or coriander, roughly chopped", "1 cup Greek yoghurt", "1 garlic clove, finely grated", "Juice of 1/2 lemon", "Extra olive oil", "Salt", "2 ripe avocados, sliced or smashed", "Good bread for serving (sourdough or Turkish)"], "method": ["Heat a generous glug of olive oil in a large, wide ovenproof pan over medium heat. Add onion and capsicum with a pinch of salt and cook for 8–10 minutes until soft and sweet.", "Add garlic, cumin, paprika and chilli flakes. Stir and cook for 1–2 minutes until fragrant.", "Pour in the crushed tomatoes. Stir well, then simmer over medium-low heat for 12–15 minutes until the sauce has thickened and deepened in flavour. Season with salt and pepper.", "Make 6 wells in the sauce using the back of a spoon. Crack an egg into each well. Cover with a lid and cook on medium-low heat for 6–8 minutes until the whites are just set but the yolks are still runny.", "While eggs cook, mix Greek yoghurt with grated garlic, lemon juice, a drizzle of olive oil and a pinch of salt. Set aside.", "Scatter the shakshouka with parsley or coriander. Serve straight from the pan alongside the lemon garlic yoghurt, sliced or smashed avocado, and plenty of bread."], "nathan_tweaks": "Serve this as a whole spread, not just eggs in sauce. The lemon garlic yoghurt is not optional — it makes the whole thing. Good bread is essential. Avocado rounds it out as a proper brunch feast.", "substitutions": "Add crumbled feta on top. Use roasted capsicum from a jar for speed. Swap yoghurt for labneh.", "pairings": ["Lemon garlic yoghurt", "Sliced avocado", "Good sourdough or pita", "Simple herb salad"], "full_meal_id": "shakshouka-feast", "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of shakshouka in a cast iron pan with six eggs, served on a table spread with yoghurt, avocado and bread, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/rzPVSqQjjqs/800x500", "emoji": "🍳", "try_soon": false, "family_dinner_candidate": false, "entertaining_candidate": true, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}, {"recipe_id": "hidden-zucchini-pesto-pasta", "recipe_name": "Hidden Zucchini Pesto Pasta", "record_type": "personal_recipe", "category": "Pasta", "cuisine": "Italian-inspired", "difficulty": "Easy", "tags": ["pasta", "hidden-veg", "kid-friendly", "weeknight", "vegetarian", "quick"], "prep_time_minutes": 10, "cook_time_minutes": 20, "total_time_minutes": 30, "serves": "4", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": null, "entertaining_score": 5, "weeknight_score": 9, "ingredients": ["400g pasta (penne, rigatoni or fusilli)", "2 medium zucchini, finely grated", "190g good-quality store-bought pesto", "300g cherry tomatoes, halved", "Zest and juice of 1 lemon", "1/2 cup finely grated parmesan, plus extra to serve", "Handful fresh basil", "Handful flat-leaf parsley", "Olive oil", "Salt and black pepper"], "method": ["Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.", "While pasta cooks, heat a generous glug of olive oil in a large pan over medium heat. Add grated zucchini with a pinch of salt. Cook, stirring occasionally, for 8–10 minutes until collapsed and sweet — it should lose most of its moisture.", "Add halved cherry tomatoes to the zucchini and cook for 3–4 minutes until just beginning to soften.", "Remove from heat. Stir through pesto, lemon zest, a squeeze of lemon juice and parmesan.", "Add drained pasta and toss to combine, adding pasta water a splash at a time to loosen the sauce to a glossy coat.", "Finish with basil, parsley, black pepper and extra parmesan."], "nathan_tweaks": "The lemon is essential for lifting store-bought pesto — don't skip it. The zucchini is deliberately hidden; grating it finely means it melts into the sauce and fussy eaters won't notice it. This is an intentional strategy, not an accident.", "substitutions": "Swap zucchini for finely grated carrot or spinach. Use homemade pesto if you have it.", "pairings": ["Simple green salad", "Garlic bread"], "full_meal_id": null, "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of pesto pasta in a wide bowl with visible zucchini, cherry tomatoes and fresh basil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/12eHC6FxPyg/800x500", "emoji": "🌿", "try_soon": false, "family_dinner_candidate": true, "entertaining_candidate": false, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}, {"recipe_id": "vegetarian-lasagna", "recipe_name": "Vegetarian Lasagna", "record_type": "personal_recipe", "category": "Vegetarian", "cuisine": "Italian", "difficulty": "Advanced", "tags": ["vegetarian", "comfort-food", "entertaining", "make-ahead", "family-favourite", "pasta"], "prep_time_minutes": 30, "cook_time_minutes": 60, "total_time_minutes": 90, "serves": "6-8", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": null, "entertaining_score": 9, "weeknight_score": 4, "ingredients": ["Dried lasagna sheets (enough for 3-4 layers in your dish)", "2 onions, diced", "3 garlic cloves, minced", "2 zucchini, diced", "250g mushrooms, finely chopped", "2 carrots, grated", "2 x 400g tins crushed tomatoes", "2 tbsp tomato paste", "1 tsp dried oregano", "1 tsp dried Italian herbs", "Olive oil", "Salt and black pepper", "500g ricotta", "2 cups grated mozzarella", "1 cup finely grated parmesan", "1 egg"], "method": ["Preheat oven to 190°C.", "Heat a generous glug of olive oil in a large pan over medium heat. Add onion with a pinch of salt and cook for 8 minutes until soft. Add garlic, cook 1 minute.", "Add zucchini, mushrooms and carrot. Cook for 10–12 minutes, stirring occasionally, until the vegetables have softened and reduced significantly.", "Stir in tomato paste and cook for 2 minutes. Add crushed tomatoes and dried herbs. Season well. Simmer for 20–25 minutes until the sauce is thick and rich. Taste and adjust seasoning.", "In a bowl, mix ricotta with the egg, half the parmesan, and 1/2 cup of mozzarella. Season with salt and pepper.", "Spread a thin layer of vegetable sauce across the base of a large baking dish. Add a layer of lasagna sheets. Top with vegetable sauce, then dollops of the ricotta mixture. Repeat layers — sauce, sheets, ricotta — finishing with a final layer of sauce.", "Top generously with remaining mozzarella and parmesan.", "Cover tightly with foil and bake for 40 minutes. Remove foil and bake for a further 20 minutes until golden and bubbling.", "Rest for at least 15 minutes before cutting and serving."], "nathan_tweaks": "This should be genuinely delicious, not consolation vegetarian food. Resting is mandatory — it holds together so much better. Make it the day before and reheat; the flavours deepen overnight. The ricotta layer is what separates this from a basic bake.", "substitutions": "Add a layer of spinach for extra veg. Use fresh pasta sheets for a more luxurious result. Add a small tin of lentils to the sauce for extra substance.", "pairings": ["Rocket and parmesan salad", "Garlic bread", "Good red wine"], "full_meal_id": "italian-family-night", "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of a slice of vegetarian lasagna served on a white plate, layers visible, golden top, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/WpnGOZ3C5uU/800x500", "emoji": "🫕", "try_soon": false, "family_dinner_candidate": true, "entertaining_candidate": true, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}, {"recipe_id": "tomato-herb-pasta", "recipe_name": "Tomato Herb Pasta", "record_type": "personal_recipe", "category": "Pasta", "cuisine": "Italian-inspired", "difficulty": "Easy", "tags": ["pasta", "weeknight", "kid-friendly", "vegetarian", "quick", "herbs"], "prep_time_minutes": 5, "cook_time_minutes": 25, "total_time_minutes": 30, "serves": "4", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": null, "entertaining_score": 5, "weeknight_score": 9, "ingredients": ["400g pasta", "500g cherry tomatoes", "3 garlic cloves, finely sliced", "1/2 cup good-quality store-bought pesto", "Large handful fresh basil", "Large handful flat-leaf parsley", "1/2 cup finely grated parmesan, plus extra to serve", "Olive oil", "Salt and black pepper"], "method": ["Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.", "Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water.", "In a large pan, gently cook garlic in olive oil for 30 seconds. Add roasted tomatoes and their juices. Stir in pesto.", "Add drained pasta and toss, adding pasta water to loosen to a glossy sauce.", "Remove from heat and stir through basil, parsley and parmesan. Season to taste."], "nathan_tweaks": "Simple and reliable. Roasting the tomatoes makes a big difference even for a quick midweek dinner. Fresh herbs added at the end are what make it feel fresh rather than jar-sauce.", "substitutions": "Add a tin of cannellini beans for substance. Works with any pasta shape.", "pairings": ["Simple green salad", "Garlic bread"], "full_meal_id": null, "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of pasta with roasted cherry tomatoes and fresh herbs in a wide bowl, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/PLyJqEJVre0/800x500", "emoji": "🍅", "try_soon": false, "family_dinner_candidate": true, "entertaining_candidate": false, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}, {"recipe_id": "charred-broccolini", "recipe_name": "Charred Broccolini", "record_type": "personal_recipe", "category": "Sides & Sauces", "cuisine": "Modern Australian", "difficulty": "Easy", "tags": ["side", "vegetarian", "quick", "healthy-ish", "weeknight"], "prep_time_minutes": 3, "cook_time_minutes": 7, "total_time_minutes": 10, "serves": "4", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": null, "entertaining_score": 7, "weeknight_score": 10, "ingredients": ["2 bunches broccolini", "2 tbsp olive oil", "Salt", "Lemon wedges to serve"], "method": ["Heat a large heavy-based pan or griddle over high heat until very hot — it should be slightly smoking.", "Toss broccolini with olive oil and a good pinch of salt.", "Add broccolini to the hot pan in a single layer. Cook for 3–4 minutes without moving, until charred and blistered on the underside.", "Turn and cook for another 2–3 minutes. The broccolini should be bright green, tender and charred in places.", "Serve immediately with lemon wedges."], "nathan_tweaks": "The pan must be very hot before the broccolini goes in. Don't crowd the pan. The char is the whole point — don't be timid about it.", "substitutions": "Works with regular broccoli florets, asparagus, or green beans. Add a pinch of chilli flakes or a drizzle of tahini to serve.", "pairings": ["Miso salmon", "Any protein", "Lemon and sea salt"], "full_meal_id": "salmon-dinner", "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of charred broccolini on a white ceramic plate, lemon wedge alongside, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/YTw7O_IY4l0/800x500", "emoji": "🥦", "try_soon": false, "family_dinner_candidate": false, "entertaining_candidate": true, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}, {"recipe_id": "lemon-garlic-yoghurt", "recipe_name": "Lemon Garlic Yoghurt", "record_type": "personal_recipe", "category": "Sides & Sauces", "cuisine": "Middle Eastern-inspired", "difficulty": "Easy", "tags": ["sauce", "side", "vegetarian", "brunch", "quick"], "prep_time_minutes": 5, "cook_time_minutes": 0, "total_time_minutes": 5, "serves": "4", "kid_friendly": true, "leah_rating": null, "nina_rating": null, "nathan_rating": null, "entertaining_score": 7, "weeknight_score": 8, "ingredients": ["1 cup Greek yoghurt", "1 garlic clove, finely grated", "Juice of 1/2 lemon", "1 tbsp extra virgin olive oil", "Flaky salt", "Freshly cracked black pepper"], "method": ["Combine Greek yoghurt, grated garlic and lemon juice. Mix well.", "Season with salt and taste — it should be bright and tangy.", "Transfer to a serving bowl, drizzle with olive oil and finish with cracked black pepper."], "nathan_tweaks": "The yoghurt matters — use full-fat Greek yoghurt, not low-fat. This is the sauce that makes the shakshouka feast. Make it fresh just before serving.", "substitutions": "Use labneh for a thicker, richer result. Add a pinch of za'atar or sumac on top. A little tahini stirred through is excellent.", "pairings": ["Shakshouka", "Roasted vegetables", "Falafel", "Any Middle Eastern spread"], "full_meal_id": "shakshouka-feast", "adapted_from_recipe_id": null, "source_name": null, "source_url": null, "source_author": null, "source_image_url": null, "source_notes": "Bennett family original", "date_saved": "2024-01-01", "image_prompt": "Premium modern cookbook photograph of lemon garlic yoghurt in a small white bowl with a drizzle of olive oil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.", "image_file": null, "image_url": "https://source.unsplash.com/NFHeBysjCTI/800x500", "emoji": "🍋", "try_soon": false, "family_dinner_candidate": false, "entertaining_candidate": true, "copyright_status": "personal", "editable_title": null, "save_type": null, "nathan_modified_before_save": false, "planned_ingredient_changes": null, "planned_method_changes": null, "approved_adaptation_text": null, "adaptation_status": "not_applicable"}];
+const MEALS_DATA = [{"full_meal_id": "salmon-dinner", "meal_name": "Salmon Dinner", "description": "A weeknight-capable Japanese-inspired dinner. Miso-glazed salmon over coconut rice with charred broccolini. Impressive enough for guests, easy enough for Tuesday.", "recipe_ids": ["miso-salmon-coconut-rice", "charred-broccolini"], "serves": "4", "total_time_estimate": "45 minutes", "occasions": ["weeknight", "entertaining", "family"], "notes": "Start the rice first — it takes the longest. Get the broccolini into the hot pan while the salmon roasts. Everything lands on the table at the same time if you sequence it right. Add cucumber and spring onion at the end for freshness."}, {"full_meal_id": "shakshouka-feast", "meal_name": "Shakshouka Feast", "description": "A generous Middle Eastern brunch spread built around a pan of shakshouka. The lemon garlic yoghurt and avocado are part of the meal, not optional extras.", "recipe_ids": ["shakshouka-feast", "lemon-garlic-yoghurt"], "serves": "4-6", "total_time_estimate": "45 minutes", "occasions": ["brunch", "entertaining", "weekend"], "notes": "Put the lemon garlic yoghurt and avocado on the table while the shakshouka simmers. Have good bread warm and ready. Serve straight from the pan."}, {"full_meal_id": "italian-family-night", "meal_name": "Italian Family Night", "description": "A proper Italian family dinner. Either the 10/10 Tuna Pasta or the Vegetarian Lasagna as the centrepiece, with a rocket salad and garlic bread alongside.", "recipe_ids": ["tuna-pasta-roasted-tomatoes", "vegetarian-lasagna"], "serves": "4-6", "total_time_estimate": "60-90 minutes depending on main", "occasions": ["family", "entertaining", "weekend"], "notes": "Choose one main — pasta for a weeknight-friendly version, lasagna for a proper occasion. The lasagna benefits from being made the day before. Finish with strawberries or something simple. Good red wine."}];
+const RTE_INDEX  = [];
+const OTT_INDEX  = [];
+
+// ─── Tab management ───────────────────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.getElementById('panel-' + name).classList.add('active');
+  if (name === 'search')   initSearch();
+  if (name === 'builder')  initBuilder();
+  if (name === 'discover') initDiscover();
+}
+
+// ─── Utilities ────────────────────────────────────────────────────────
+const CAT_GRADIENTS = {
+  'Pasta':              'linear-gradient(135deg,#F4A261,#E76F51)',
+  'Seafood':            'linear-gradient(135deg,#89CFF0,#2196A8)',
+  'Vegetarian':         'linear-gradient(135deg,#95D5B2,#52B788)',
+  'Brunch & Breakfast': 'linear-gradient(135deg,#FFE08A,#F59E0B)',
+  'Sides & Sauces':     'linear-gradient(135deg,#D4A373,#8B5E3C)',
+};
+
+function cardGradient(r) {
+  return CAT_GRADIENTS[r.category] || 'linear-gradient(135deg,#FDF6F0,#E8DDD0)';
+}
+
+function esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Search panel ─────────────────────────────────────────────────────
+let activeFilter = 'all';
+let searchReady  = false;
+
+function initSearch() {
+  if (searchReady) return;
+  searchReady = true;
+  renderSearchResults(RECIPES);
+}
+
+function setChip(el) {
+  document.querySelectorAll('#filter-chips .chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = el.dataset.filter;
+  filterRecipes();
+}
+
+function filterRecipes() {
+  const q = (document.getElementById('search-input').value || '').toLowerCase().trim();
+  let results = RECIPES;
+
+  if (activeFilter !== 'all') {
+    results = results.filter(r => {
+      switch (activeFilter) {
+        case 'weeknight':  return (r.weeknight_score  || 0) >= 7;
+        case 'family':     return r.family_dinner_candidate;
+        case 'pasta':      return r.category === 'Pasta';
+        case 'seafood':    return r.category === 'Seafood';
+        case 'vegetarian': return r.category === 'Vegetarian';
+        case 'brunch':     return r.category === 'Brunch & Breakfast';
+        case 'easy':       return r.difficulty === 'Easy';
+        case 'quick':      return r.total_time_minutes <= 30;
+        case 'kid':        return r.kid_friendly;
+        default:           return true;
+      }
+    });
+  }
+
+  if (q) {
+    results = results.filter(r =>
+      r.recipe_name.toLowerCase().includes(q) ||
+      (r.category || '').toLowerCase().includes(q) ||
+      (r.cuisine  || '').toLowerCase().includes(q) ||
+      (r.ingredients || []).some(i => i.toLowerCase().includes(q)) ||
+      (r.tags || []).some(t => t.toLowerCase().includes(q))
+    );
+  }
+
+  renderSearchResults(results);
+}
+
+function renderSearchResults(recipes) {
+  const count = document.getElementById('search-count');
+  const grid  = document.getElementById('search-results');
+
+  count.textContent = recipes.length + ' recipe' + (recipes.length !== 1 ? 's' : '');
+
+  if (!recipes.length) {
+    grid.innerHTML = '<p class="no-results">No recipes found. Try a different search or filter.</p>';
+    return;
+  }
+
+  grid.innerHTML = recipes.map(r => {
+    const wn  = (r.weeknight_score  || 0) >= 7 ? '<span class="badge badge--green">⚡ Weeknight</span>' : '';
+    const kid = r.kid_friendly ? '<span class="badge badge--green">👶</span>' : '';
+    return `
+      <a href="#" class="search-card" onclick="goToRecipe('${esc(r.recipe_id)}');return false;">
+        <div class="search-card__image" style="background:${cardGradient(r)}">
+          <span>${r.emoji || '🍽️'}</span>
+        </div>
+        <div class="search-card__body">
+          <div class="search-card__title">${esc(r.recipe_name)}</div>
+          <div class="search-card__meta">
+            <span>${r.total_time_minutes}min</span>
+            <span>${esc(r.difficulty)}</span>
+            ${wn}${kid}
+          </div>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+function goToRecipe(id) {
+  showTab('cookbook');
+  requestAnimationFrame(() => {
+    const el = document.getElementById('recipe-' + id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+}
+
+// ─── Meal Builder ─────────────────────────────────────────────────────
+let builderReady = false;
+
+function initBuilder() {
+  if (builderReady) return;
+  builderReady = true;
+  renderCheckboxes();
+  renderMeals();
+}
+
+function renderCheckboxes() {
+  const el = document.getElementById('recipe-checkboxes');
+  el.innerHTML = RECIPES.map(r => `
+    <label class="recipe-checkbox">
+      <input type="checkbox" value="${esc(r.recipe_id)}" name="meal-recipes">
+      <span>${r.emoji || '🍽️'} ${esc(r.recipe_name)}</span>
+      <span class="recipe-checkbox__meta">${r.total_time_minutes}min · ${esc(r.category)}</span>
+    </label>`).join('');
+}
+
+function getLocalMeals() {
+  try { return JSON.parse(localStorage.getItem('bennett_meals') || '[]'); } catch(e) { return []; }
+}
+
+function renderMeals() {
+  const allMeals = [...MEALS_DATA, ...getLocalMeals()];
+  const el = document.getElementById('meals-list');
+
+  if (!allMeals.length) {
+    el.innerHTML = '<p class="empty-state">No meals yet. Create one using the form.</p>';
+    return;
+  }
+
+  el.innerHTML = allMeals.map(m => {
+    const isCustom = m._custom ? '<span class="custom-badge">Custom</span>' : '';
+    const components = (m.recipe_ids || []).map(rid => {
+      const r = RECIPES.find(x => x.recipe_id === rid);
+      return `<li><span class="arrow">→</span> ${esc(r ? r.recipe_name : rid)}</li>`;
+    }).join('');
+    const occasions = (m.occasions || []).filter(Boolean).map(o => `<span class="tag">${esc(o)}</span>`).join('');
+
+    return `
+      <div class="meal-mini-card">
+        <h4>${esc(m.meal_name)}${isCustom}</h4>
+        ${m.description ? `<p class="meal-desc">${esc(m.description)}</p>` : ''}
+        <div class="meal-meta">
+          <span>👥 ${esc(m.serves || '4')}</span>
+          ${m.total_time_estimate ? `<span>⏱ ${esc(m.total_time_estimate)}</span>` : ''}
+        </div>
+        ${components ? `<ul class="component-list">${components}</ul>` : ''}
+        ${m.notes ? `<div class="meal-notes">${esc(m.notes)}</div>` : ''}
+        ${occasions ? `<div class="occasion-tags">${occasions}</div>` : ''}
+      </div>`;
+  }).join('');
+}
+
+function saveMeal(e) {
+  e.preventDefault();
+  const name = document.getElementById('meal-name').value.trim();
+  if (!name) return;
+
+  const recipeIds = [...document.querySelectorAll('input[name="meal-recipes"]:checked')].map(i => i.value);
+  const occasions = document.getElementById('meal-occasions').value
+    .split(',').map(s => s.trim()).filter(Boolean);
+
+  const meal = {
+    full_meal_id: 'custom-' + Date.now(),
+    meal_name:    name,
+    recipe_ids:   recipeIds,
+    serves:       document.getElementById('meal-serves').value || '4',
+    occasions:    occasions,
+    notes:        document.getElementById('meal-notes').value.trim() || null,
+    _custom:      true,
+  };
+
+  const meals = getLocalMeals();
+  meals.push(meal);
+  localStorage.setItem('bennett_meals', JSON.stringify(meals));
+
+  renderMeals();
+  e.target.reset();
+
+  const jsonStr = JSON.stringify(meal, null, 2);
+  document.getElementById('meal-json-output').textContent = jsonStr;
+  document.getElementById('meal-json-panel').style.display = 'block';
+  document.getElementById('meal-json-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyMealJson() {
+  const text = document.getElementById('meal-json-output').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => { btn.textContent = '📋 Copy JSON'; }, 2000);
+  }).catch(() => {
+    const r = document.createRange();
+    r.selectNodeContents(document.getElementById('meal-json-output'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+  });
+}
+
+// ─── Discover ─────────────────────────────────────────────────────────
+let discoverSource  = 'rte';
+let livePool        = [];
+let discoverReady   = false;
+
+function initDiscover() {
+  if (discoverReady) return;
+  discoverReady = true;
+  updateDiscoverCount();
+}
+
+function setSource(el) {
+  document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  discoverSource = el.dataset.source;
+  updateDiscoverCount();
+}
+
+function getPool() {
+  const rte = [...RTE_INDEX, ...livePool.filter(r => r._src === 'rte')].map(r => ({...r, _source:'RecipeTin Eats'}));
+  const ott = [...OTT_INDEX, ...livePool.filter(r => r._src === 'ott')].map(r => ({...r, _source:'Ottolenghi'}));
+  if (discoverSource === 'rte')        return rte;
+  if (discoverSource === 'ottolenghi') return ott;
+  return [...rte, ...ott];
+}
+
+function updateDiscoverCount() {
+  const n = getPool().length;
+  document.getElementById('discover-count').textContent = n ? n + ' recipes available' : '';
+}
+
+function nextDiscover() {
+  const pool = getPool();
+  const el   = document.getElementById('discover-card');
+
+  if (!pool.length) {
+    el.innerHTML = `
+      <div class="discover-empty">
+        <p>No recipes loaded yet.</p>
+        <p>Click <strong>Load from web</strong> to fetch recipes, or run the Streamlit app to populate the index.</p>
+      </div>`;
+    return;
+  }
+
+  const recipe = pool[Math.floor(Math.random() * pool.length)];
+  renderDiscoverCard(recipe);
+}
+
+function renderDiscoverCard(r) {
+  const el = document.getElementById('discover-card');
+  const img = r.image_url
+    ? `<img src="${esc(r.image_url)}" alt="${esc(r.title)}" class="discover-image" onerror="this.remove()">`
+    : '';
+
+  el.innerHTML = `
+    <div class="discover-recipe-card">
+      ${img}
+      <div class="discover-body">
+        <div class="discover-source-badge">${esc(r._source || 'External')}</div>
+        <h3 class="discover-title">${esc(r.title || r.recipe_name || '')}</h3>
+        ${r.description ? `<p class="discover-desc">${esc(r.description)}</p>` : ''}
+        <div class="discover-card-actions">
+          <a href="${esc(r.url || r.source_url || '#')}" target="_blank" rel="noopener noreferrer" class="btn btn--primary">View Recipe ↗</a>
+          <button onclick="nextDiscover()" class="btn btn--outline">Next Random</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function fetchLiveRecipes() {
+  const PROXY = 'https://api.allorigins.win/get?url=';
+  const sources = {
+    rte:        { url: 'https://www.recipetineats.com/recipes/', domain: 'recipetineats.com',     _src: 'rte' },
+    ottolenghi: { url: 'https://ottolenghi.co.uk/pages/recipes', domain: 'ottolenghi.co.uk/recipes', _src: 'ott' },
+  };
+
+  const toFetch = discoverSource === 'both'
+    ? Object.values(sources)
+    : [sources[discoverSource] || sources.rte];
+
+  const el = document.getElementById('discover-card');
+  el.innerHTML = '<div class="discover-loading">Fetching recipes from the web…</div>';
+
+  let fetched = 0;
+  for (const src of toFetch) {
+    try {
+      const res  = await fetch(PROXY + encodeURIComponent(src.url));
+      if (!res.ok) continue;
+      const data = await res.json();
+      const parsed = parseRecipeLinks(data.contents, src.domain, src._src);
+      livePool = [...livePool.filter(r => r._src !== src._src), ...parsed];
+      fetched += parsed.length;
+    } catch(_) {}
+  }
+
+  updateDiscoverCount();
+
+  if (fetched > 0) {
+    nextDiscover();
+  } else {
+    el.innerHTML = `
+      <div class="discover-empty">
+        <p>Couldn't load recipes right now (the web proxy may be busy).</p>
+        <p>Try again in a moment, or use the Streamlit app to populate the index.</p>
+      </div>`;
+  }
+}
+
+function parseRecipeLinks(html, domainFilter, srcTag) {
+  const parser = new DOMParser();
+  const doc    = parser.parseFromString(html, 'text/html');
+  const seen   = new Set();
+  const results = [];
+
+  doc.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href') || '';
+    if (!href.includes(domainFilter)) return;
+    if (seen.has(href)) return;
+
+    // Require at least one path segment beyond the domain
+    try {
+      const parts = new URL(href, 'https://x.com').pathname.split('/').filter(Boolean);
+      if (parts.length < 1) return;
+    } catch(_) { return; }
+
+    const titleEl = a.querySelector('h2,h3,.entry-title,.post-title,.card-title,.recipe-title');
+    const title   = (titleEl?.textContent || a.title || a.textContent || '').trim();
+    if (!title || title.length < 4 || title.length > 120) return;
+
+    const img = a.querySelector('img');
+    const imgSrc = img?.getAttribute('data-src') || img?.getAttribute('src') || null;
+
+    seen.add(href);
+    results.push({ title, url: href, image_url: imgSrc, description: null, _src: srcTag });
+  });
+
+  return results;
+}
+</script>
+
 </body>
 </html>

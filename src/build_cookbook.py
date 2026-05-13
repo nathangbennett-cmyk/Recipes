@@ -278,11 +278,25 @@ def build_markdown(recipes: list[Recipe], full_meals: list[FullMeal]) -> str:
 
 # ─── HTML generation ────────────────────────────────────────────────────────
 
+def load_source_index(path: Path) -> list:
+    if not path.exists():
+        return []
+    try:
+        raw = json.loads(path.read_text(encoding="utf-8"))
+        if isinstance(raw, dict):
+            return raw.get("recipes", [])
+        return raw if isinstance(raw, list) else []
+    except Exception:
+        return []
+
+
 def build_html(
     recipes: list[Recipe],
     full_meals: list[FullMeal],
     env: Environment,
     out_path: Path,
+    rte_recipes: list | None = None,
+    ott_recipes: list | None = None,
 ) -> None:
     sections = group_sections(recipes)
     recipe_lookup = {r.recipe_id: r for r in recipes}
@@ -291,6 +305,17 @@ def build_html(
         r for r in recipes
         if r.record_type.value in ("personal_recipe", "adapted_bennett_recipe")
     ]
+
+    all_recipes_json = json.dumps(
+        [r.model_dump(mode="json") for r in cookbook_recipes],
+        ensure_ascii=False,
+    )
+    full_meals_json = json.dumps(
+        [m.model_dump(mode="json") for m in full_meals],
+        ensure_ascii=False,
+    )
+    rte_index_json = json.dumps(rte_recipes or [], ensure_ascii=False)
+    ott_index_json = json.dumps(ott_recipes or [], ensure_ascii=False)
 
     template = env.get_template("cookbook.html.j2")
     html = template.render(
@@ -301,6 +326,10 @@ def build_html(
         total_recipes=len(cookbook_recipes),
         total_meals=len(full_meals),
         generated_date=date.today().strftime("%d %B %Y"),
+        all_recipes_json=all_recipes_json,
+        full_meals_json=full_meals_json,
+        rte_index_json=rte_index_json,
+        ott_index_json=ott_index_json,
     )
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(html, encoding="utf-8")
@@ -331,6 +360,13 @@ def main() -> None:
     full_meals = load_full_meals(BASE / "data" / "full_meals.json")
     env        = build_jinja_env(BASE / "templates")
 
+    rte_recipes = load_source_index(BASE / "data" / "recipetineats_recipe_index.json")
+    ott_recipes = load_source_index(BASE / "data" / "ottolenghi_recipe_index.json")
+    if rte_recipes:
+        print(f"  RTE index  → {len(rte_recipes)} recipes loaded")
+    if ott_recipes:
+        print(f"  Ott index  → {len(ott_recipes)} recipes loaded")
+
     # Markdown
     md_path = BASE / "cookbook" / "the_bennett_cookbook.md"
     md_path.parent.mkdir(parents=True, exist_ok=True)
@@ -339,7 +375,7 @@ def main() -> None:
 
     # HTML
     html_path = BASE / "cookbook" / "the_bennett_cookbook.html"
-    build_html(recipes, full_meals, env, html_path)
+    build_html(recipes, full_meals, env, html_path, rte_recipes, ott_recipes)
 
     # PDF
     pdf_path = BASE / "cookbook" / "the_bennett_cookbook.pdf"
