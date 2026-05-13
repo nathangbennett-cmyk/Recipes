@@ -1,0 +1,3572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Bennett Cookbook</title>
+  <style>
+    /* ─── Design System ─────────────────────────────────────────────────── */
+    :root {
+      --color-bg:          #FAF8F5;
+      --color-text:        #2C2C2C;
+      --color-accent:      #C0392B;
+      --color-accent-2:    #7D9E4A;
+      --color-section-bg:  #F0EBE3;
+      --color-border:      #D4C4B0;
+      --color-muted:       #6B6560;
+      --color-tweaks-bg:   #FFF8E7;
+      --color-tweaks-bd:   #E8A838;
+      --font-heading:      Georgia, 'Times New Roman', serif;
+      --font-body:         -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --max-width:         900px;
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: normal; line-height: 1.25; }
+
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── Layout ────────────────────────────────────────────────────────── */
+    .page-wrap { max-width: var(--max-width); margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    /* ─── Cover Page ────────────────────────────────────────────────────── */
+    .cover-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 4rem;
+    }
+
+    .cover-page .overline {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    h1.cookbook-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cover-subtitle {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--color-muted);
+      margin-bottom: 3rem;
+    }
+
+    .cover-meta {
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      margin-top: 3rem;
+    }
+
+    .cover-accent-line {
+      width: 60px;
+      height: 3px;
+      background: var(--color-accent);
+      margin: 1.5rem auto;
+    }
+
+    /* ─── Table of Contents ─────────────────────────────────────────────── */
+    .toc {
+      margin-bottom: 4rem;
+      padding: 2rem;
+      background: var(--color-section-bg);
+      border-radius: 8px;
+    }
+
+    .toc h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-accent);
+    }
+
+    .toc-list {
+      list-style: none;
+      columns: 2;
+      column-gap: 2rem;
+    }
+
+    .toc-list li {
+      padding: 0.4rem 0;
+      border-bottom: 1px dotted var(--color-border);
+      break-inside: avoid;
+    }
+
+    .toc-list a {
+      color: var(--color-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .toc-list a:hover { color: var(--color-accent); text-decoration: none; }
+
+    .toc-recipe-count {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      flex-shrink: 0;
+      margin-left: 0.5rem;
+    }
+
+    /* ─── Section Header ────────────────────────────────────────────────── */
+    .section-header {
+      background: var(--color-section-bg);
+      border-left: 6px solid var(--color-accent);
+      padding: 2rem 2rem 1.5rem;
+      margin: 4rem 0 2rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header .section-desc {
+      color: var(--color-muted);
+      font-style: italic;
+    }
+
+    /* ─── Recipe Card ───────────────────────────────────────────────────── */
+    .recipe-card {
+      margin-bottom: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .recipe-card:last-child { border-bottom: none; }
+
+    /* Header row: image + title block */
+    .recipe-card__header {
+      margin-bottom: 1.5rem;
+    }
+
+    .recipe-card__title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--color-text);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Image */
+    .recipe-image {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .recipe-image--placeholder {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, var(--color-section-bg) 0%, var(--color-border) 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      color: var(--color-muted);
+      font-style: italic;
+      font-size: 0.875rem;
+    }
+
+    /* Metadata badges */
+    .recipe-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .badge--green  { background: var(--color-accent-2, #7D9E4A); color: white; }
+    .badge--neutral { background: var(--color-border); color: var(--color-text); }
+    .badge--outline { background: transparent; border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+    /* Ratings */
+    .recipe-ratings {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+
+    .recipe-ratings span strong { color: var(--color-text); }
+
+    /* Body: ingredients + method */
+    .recipe-body {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .recipe-body h4 {
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .recipe-ingredients ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .recipe-ingredients li {
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 0.9375rem;
+    }
+
+    .recipe-ingredients li:last-child { border-bottom: none; }
+
+    .recipe-method ol {
+      padding-left: 1.25rem;
+    }
+
+    .recipe-method li {
+      padding: 0.4rem 0;
+      font-size: 0.9375rem;
+    }
+
+    /* Nathan tweaks callout */
+    .nathan-tweaks {
+      background: var(--color-tweaks-bg);
+      border-left: 4px solid var(--color-tweaks-bd);
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9375rem;
+    }
+
+    .nathan-tweaks-label {
+      font-weight: 700;
+      color: #8B6010;
+      font-size: 0.8125rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* Footer fields */
+    .recipe-footer {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .recipe-footer strong { color: var(--color-text); }
+
+    /* Tags row */
+    .recipe-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--color-section-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      font-size: 0.75rem;
+      color: var(--color-muted);
+    }
+
+    /* ─── Full Meal Builds ──────────────────────────────────────────────── */
+    .full-meal-card {
+      border: 2px solid var(--color-accent-2);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .full-meal-card h3 {
+      font-size: 1.5rem;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .full-meal-card .meal-description {
+      color: var(--color-muted);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .full-meal-card .meal-meta {
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .full-meal-card .component-list {
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+
+    .full-meal-card .component-list li {
+      padding: 0.35rem 0;
+      border-bottom: 1px dashed var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .full-meal-card .component-list li:last-child { border-bottom: none; }
+
+    .full-meal-card .component-list a { color: var(--color-text); }
+    .full-meal-card .component-list a:hover { color: var(--color-accent); }
+
+    .component-icon { color: var(--color-accent-2); font-weight: bold; }
+
+    .meal-notes {
+      background: var(--color-section-bg);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      margin-top: 0.75rem;
+    }
+
+    .occasion-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    /* ─── Recipe Index ──────────────────────────────────────────────────── */
+    .recipe-index {
+      margin-top: 4rem;
+    }
+
+    .recipe-index h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .recipe-index table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .recipe-index th {
+      background: var(--color-accent);
+      color: white;
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .recipe-index td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+
+    .recipe-index tr:nth-child(even) td { background: var(--color-section-bg); }
+    .recipe-index tr:hover td { background: #f0e8de; }
+
+    /* ─── Print ─────────────────────────────────────────────────────────── */
+    @media print {
+      body { font-size: 11pt; background: white; }
+
+      .cover-page { page-break-after: always; min-height: auto; padding: 3cm 2cm; }
+      .toc { page-break-after: always; background: none; border: 1px solid #ccc; }
+      .section-header { page-break-before: always; background: none; }
+      .recipe-card { page-break-inside: avoid; }
+      .full-meal-card { page-break-inside: avoid; }
+
+      a { color: inherit; text-decoration: none; }
+      .badge { border: 1px solid currentColor; background: none; color: inherit; }
+
+      .recipe-body { display: grid; grid-template-columns: 1fr 2fr; }
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .recipe-body { grid-template-columns: 1fr; }
+      .toc-list { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ── Cover ─────────────────────────────────────────────── -->
+  <div class="cover-page">
+    <p class="overline">A Family Recipe Collection</p>
+    <h1 class="cookbook-title">The Bennett Cookbook</h1>
+    <div class="cover-accent-line"></div>
+    <p class="cover-subtitle">Curated, tested, and loved.</p>
+    <p class="cover-meta">8 recipes &nbsp;·&nbsp; 3 full meal builds &nbsp;·&nbsp; Generated 13 May 2026</p>
+  </div>
+
+  <!-- ── Table of Contents ──────────────────────────────────── -->
+  <div class="toc">
+    <h2>Contents</h2>
+    <ul class="toc-list">
+      
+      <li>
+        <a href="#section-weeknight-winners">
+          <span>1. Weeknight Winners</span>
+          <span class="toc-recipe-count">6 recipes</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="#section-family-favourites">
+          <span>2. Family Favourites</span>
+          <span class="toc-recipe-count">5 recipes</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="#section-pasta">
+          <span>3. Pasta</span>
+          <span class="toc-recipe-count">3 recipes</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="#section-seafood">
+          <span>4. Seafood</span>
+          <span class="toc-recipe-count">1 recipe</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="#section-vegetarian">
+          <span>5. Vegetarian</span>
+          <span class="toc-recipe-count">1 recipe</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="#section-brunch-breakfast">
+          <span>6. Brunch &amp; Breakfast</span>
+          <span class="toc-recipe-count">1 recipe</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="#section-entertaining">
+          <span>7. Entertaining</span>
+          <span class="toc-recipe-count">5 recipes</span>
+        </a>
+      </li>
+      
+      <li>
+        <a href="#section-sides-sauces">
+          <span>8. Sides &amp; Sauces</span>
+          <span class="toc-recipe-count">2 recipes</span>
+        </a>
+      </li>
+      
+      <li><a href="#section-full-meal-builds"><span>9. Full Meal Builds</span><span class="toc-recipe-count">3</span></a></li>
+      <li><a href="#section-recipe-index"><span>10. Recipe Index</span><span class="toc-recipe-count">8</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ── Recipe Sections ────────────────────────────────────── -->
+  
+  
+  <section id="section-weeknight-winners">
+    <div class="section-header">
+      <h2>Weeknight Winners</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-tuna-pasta-roasted-tomatoes">
+
+  <!-- Image -->
+  
+  <img src="../images/source/tuna-pasta-roasted-tomatoes.jpg"
+       alt="10/10 Tuna Pasta"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: 10/10 Tuna Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">10/10 Tuna Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">35 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+    <div class="recipe-ratings">
+      <span><strong>Nathan</strong> 10.0/10</span>
+      
+      
+    </div>
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>500g spaghetti</li>
+        
+        <li>2 x 185g tins tuna in olive oil, drained lightly</li>
+        
+        <li>500g cherry tomatoes</li>
+        
+        <li>3 garlic cloves, finely sliced</li>
+        
+        <li>1/2 cup kalamata olives, pitted and roughly chopped</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>1/2 cup flat-leaf parsley, chopped</li>
+        
+        <li>1 lemon (optional)</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.</li>
+        
+        <li>Cook spaghetti in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.</li>
+        
+        <li>In a large pan, gently cook garlic in olive oil over medium heat for about 30 seconds until just golden.</li>
+        
+        <li>Add tuna and olives to the pan, keeping some texture in the tuna — don&#39;t mash it.</li>
+        
+        <li>Add the roasted tomatoes and their juices. Stir to combine.</li>
+        
+        <li>Add the drained pasta, parmesan and enough reserved pasta water to create a glossy, cohesive sauce.</li>
+        
+        <li>Finish with parsley, plenty of black pepper, and extra parmesan. Add a little lemon zest or juice only if the dish needs lift.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Roasted tomatoes are non-negotiable — they concentrate and sweeten in a way pan-blistered ones never do. Olives belong in this dish; they&#39;re not too much. Keep it glossy, not dry — add pasta water generously. Tuna in olive oil is the move.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Tinned salmon works as a swap. Add capers if you don&#39;t have olives. Linguine or rigatoni in place of spaghetti.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Garlic bread, Rocket and parmesan salad, Strawberries or simple dessert</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of spaghetti with roasted cherry tomatoes, tuna and kalamata olives in a white ceramic bowl, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">seafood</span><span class="tag">weeknight</span><span class="tag">kid-friendly</span><span class="tag">family-favourite</span><span class="tag">quick</span><span class="tag">pantry</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
+
+  <!-- Image -->
+  
+  <img src="../images/source/miso-salmon-coconut-rice.jpg"
+       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Miso Salmon with Coconut Rice and Charred Broccolini
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Miso Salmon with Coconut Rice and Charred Broccolini</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">45 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--outline">
+        Medium
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>4 salmon fillets (approx. 180g each)</li>
+        
+        <li>2 tbsp white miso paste</li>
+        
+        <li>1 tbsp soy sauce</li>
+        
+        <li>1 tbsp honey</li>
+        
+        <li>1 tsp sesame oil</li>
+        
+        <li>1 tsp fresh ginger, grated (optional)</li>
+        
+        <li>1.5 cups jasmine rice</li>
+        
+        <li>400ml coconut milk</li>
+        
+        <li>1 cup water</li>
+        
+        <li>1 tsp salt</li>
+        
+        <li>2 bunches broccolini</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>Lemon wedges</li>
+        
+        <li>1/2 cucumber, thinly sliced (to serve)</li>
+        
+        <li>2 spring onions, sliced (to serve)</li>
+        
+        <li>1 tbsp sesame seeds (to serve)</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Mix miso paste, soy sauce, honey and sesame oil together. Add grated ginger if using. Coat salmon fillets and leave to marinate for 15–30 minutes.</li>
+        
+        <li>Rinse jasmine rice until water runs clear. Combine rice, coconut milk, water and salt in a saucepan. Bring to a boil, reduce heat to low, cover and cook for 12 minutes. Remove from heat and leave covered for 5 minutes.</li>
+        
+        <li>Preheat oven to 200°C. Place marinated salmon on a lined baking tray. Roast for 12–15 minutes depending on thickness — it should be just cooked through with a slightly lacquered top.</li>
+        
+        <li>While salmon roasts, heat a large heavy pan or griddle until very hot. Toss broccolini with olive oil and salt. Char in the hot pan for 4–5 minutes, turning occasionally, until bright green and blistered in places.</li>
+        
+        <li>Serve salmon over coconut rice, broccolini alongside, with cucumber and spring onion scattered over the top. Finish with sesame seeds and a lemon wedge.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The miso marinade is the whole point — don&#39;t skimp on the marinating time. Charred broccolini is the preferred green. This works as a complete dinner; everything is timed to come together at once if you start the rice first.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Works with ocean trout or barramundi. Swap broccolini for broccolini or bok choy. Use regular short-grain rice if jasmine isn&#39;t available.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">seafood</span><span class="tag">impressive</span><span class="tag">family-favourite</span><span class="tag">full-meal</span><span class="tag">weeknight</span><span class="tag">entertaining</span><span class="tag">healthy-ish</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-hidden-zucchini-pesto-pasta">
+
+  <!-- Image -->
+  
+  <img src="../images/source/hidden-zucchini-pesto-pasta.jpg"
+       alt="Hidden Zucchini Pesto Pasta"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Hidden Zucchini Pesto Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Hidden Zucchini Pesto Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">30 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>400g pasta (penne, rigatoni or fusilli)</li>
+        
+        <li>2 medium zucchini, finely grated</li>
+        
+        <li>190g good-quality store-bought pesto</li>
+        
+        <li>300g cherry tomatoes, halved</li>
+        
+        <li>Zest and juice of 1 lemon</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>Handful fresh basil</li>
+        
+        <li>Handful flat-leaf parsley</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.</li>
+        
+        <li>While pasta cooks, heat a generous glug of olive oil in a large pan over medium heat. Add grated zucchini with a pinch of salt. Cook, stirring occasionally, for 8–10 minutes until collapsed and sweet — it should lose most of its moisture.</li>
+        
+        <li>Add halved cherry tomatoes to the zucchini and cook for 3–4 minutes until just beginning to soften.</li>
+        
+        <li>Remove from heat. Stir through pesto, lemon zest, a squeeze of lemon juice and parmesan.</li>
+        
+        <li>Add drained pasta and toss to combine, adding pasta water a splash at a time to loosen the sauce to a glossy coat.</li>
+        
+        <li>Finish with basil, parsley, black pepper and extra parmesan.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The lemon is essential for lifting store-bought pesto — don&#39;t skip it. The zucchini is deliberately hidden; grating it finely means it melts into the sauce and fussy eaters won&#39;t notice it. This is an intentional strategy, not an accident.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Swap zucchini for finely grated carrot or spinach. Use homemade pesto if you have it.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pesto pasta in a wide bowl with visible zucchini, cherry tomatoes and fresh basil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">hidden-veg</span><span class="tag">kid-friendly</span><span class="tag">weeknight</span><span class="tag">vegetarian</span><span class="tag">quick</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-tomato-herb-pasta">
+
+  <!-- Image -->
+  
+  <div class="recipe-image recipe-image--placeholder">
+    Tomato Herb Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Tomato Herb Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">30 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>400g pasta</li>
+        
+        <li>500g cherry tomatoes</li>
+        
+        <li>3 garlic cloves, finely sliced</li>
+        
+        <li>1/2 cup good-quality store-bought pesto</li>
+        
+        <li>Large handful fresh basil</li>
+        
+        <li>Large handful flat-leaf parsley</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.</li>
+        
+        <li>Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water.</li>
+        
+        <li>In a large pan, gently cook garlic in olive oil for 30 seconds. Add roasted tomatoes and their juices. Stir in pesto.</li>
+        
+        <li>Add drained pasta and toss, adding pasta water to loosen to a glossy sauce.</li>
+        
+        <li>Remove from heat and stir through basil, parsley and parmesan. Season to taste.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Simple and reliable. Roasting the tomatoes makes a big difference even for a quick midweek dinner. Fresh herbs added at the end are what make it feel fresh rather than jar-sauce.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add a tin of cannellini beans for substance. Works with any pasta shape.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pasta with roasted cherry tomatoes and fresh herbs in a wide bowl, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">weeknight</span><span class="tag">kid-friendly</span><span class="tag">vegetarian</span><span class="tag">quick</span><span class="tag">herbs</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-charred-broccolini">
+
+  <!-- Image -->
+  
+  <img src="../images/source/charred-broccolini.jpg"
+       alt="Charred Broccolini"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Charred Broccolini
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Charred Broccolini</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">10 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>2 bunches broccolini</li>
+        
+        <li>2 tbsp olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>Lemon wedges to serve</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat a large heavy-based pan or griddle over high heat until very hot — it should be slightly smoking.</li>
+        
+        <li>Toss broccolini with olive oil and a good pinch of salt.</li>
+        
+        <li>Add broccolini to the hot pan in a single layer. Cook for 3–4 minutes without moving, until charred and blistered on the underside.</li>
+        
+        <li>Turn and cook for another 2–3 minutes. The broccolini should be bright green, tender and charred in places.</li>
+        
+        <li>Serve immediately with lemon wedges.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The pan must be very hot before the broccolini goes in. Don&#39;t crowd the pan. The char is the whole point — don&#39;t be timid about it.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Works with regular broccoli florets, asparagus, or green beans. Add a pinch of chilli flakes or a drizzle of tahini to serve.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Miso salmon, Any protein, Lemon and sea salt</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of charred broccolini on a white ceramic plate, lemon wedge alongside, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">side</span><span class="tag">vegetarian</span><span class="tag">quick</span><span class="tag">healthy-ish</span><span class="tag">weeknight</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-lemon-garlic-yoghurt">
+
+  <!-- Image -->
+  
+  <img src="../images/source/lemon-garlic-yoghurt.jpg"
+       alt="Lemon Garlic Yoghurt"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Lemon Garlic Yoghurt
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Lemon Garlic Yoghurt</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">5 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>1 cup Greek yoghurt</li>
+        
+        <li>1 garlic clove, finely grated</li>
+        
+        <li>Juice of 1/2 lemon</li>
+        
+        <li>1 tbsp extra virgin olive oil</li>
+        
+        <li>Flaky salt</li>
+        
+        <li>Freshly cracked black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Combine Greek yoghurt, grated garlic and lemon juice. Mix well.</li>
+        
+        <li>Season with salt and taste — it should be bright and tangy.</li>
+        
+        <li>Transfer to a serving bowl, drizzle with olive oil and finish with cracked black pepper.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The yoghurt matters — use full-fat Greek yoghurt, not low-fat. This is the sauce that makes the shakshouka feast. Make it fresh just before serving.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Use labneh for a thicker, richer result. Add a pinch of za&#39;atar or sumac on top. A little tahini stirred through is excellent.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Shakshouka, Roasted vegetables, Falafel, Any Middle Eastern spread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of lemon garlic yoghurt in a small white bowl with a drizzle of olive oil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">sauce</span><span class="tag">side</span><span class="tag">vegetarian</span><span class="tag">brunch</span><span class="tag">quick</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+  
+  <section id="section-family-favourites">
+    <div class="section-header">
+      <h2>Family Favourites</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-tuna-pasta-roasted-tomatoes">
+
+  <!-- Image -->
+  
+  <img src="../images/source/tuna-pasta-roasted-tomatoes.jpg"
+       alt="10/10 Tuna Pasta"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: 10/10 Tuna Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">10/10 Tuna Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">35 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+    <div class="recipe-ratings">
+      <span><strong>Nathan</strong> 10.0/10</span>
+      
+      
+    </div>
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>500g spaghetti</li>
+        
+        <li>2 x 185g tins tuna in olive oil, drained lightly</li>
+        
+        <li>500g cherry tomatoes</li>
+        
+        <li>3 garlic cloves, finely sliced</li>
+        
+        <li>1/2 cup kalamata olives, pitted and roughly chopped</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>1/2 cup flat-leaf parsley, chopped</li>
+        
+        <li>1 lemon (optional)</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.</li>
+        
+        <li>Cook spaghetti in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.</li>
+        
+        <li>In a large pan, gently cook garlic in olive oil over medium heat for about 30 seconds until just golden.</li>
+        
+        <li>Add tuna and olives to the pan, keeping some texture in the tuna — don&#39;t mash it.</li>
+        
+        <li>Add the roasted tomatoes and their juices. Stir to combine.</li>
+        
+        <li>Add the drained pasta, parmesan and enough reserved pasta water to create a glossy, cohesive sauce.</li>
+        
+        <li>Finish with parsley, plenty of black pepper, and extra parmesan. Add a little lemon zest or juice only if the dish needs lift.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Roasted tomatoes are non-negotiable — they concentrate and sweeten in a way pan-blistered ones never do. Olives belong in this dish; they&#39;re not too much. Keep it glossy, not dry — add pasta water generously. Tuna in olive oil is the move.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Tinned salmon works as a swap. Add capers if you don&#39;t have olives. Linguine or rigatoni in place of spaghetti.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Garlic bread, Rocket and parmesan salad, Strawberries or simple dessert</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of spaghetti with roasted cherry tomatoes, tuna and kalamata olives in a white ceramic bowl, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">seafood</span><span class="tag">weeknight</span><span class="tag">kid-friendly</span><span class="tag">family-favourite</span><span class="tag">quick</span><span class="tag">pantry</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
+
+  <!-- Image -->
+  
+  <img src="../images/source/miso-salmon-coconut-rice.jpg"
+       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Miso Salmon with Coconut Rice and Charred Broccolini
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Miso Salmon with Coconut Rice and Charred Broccolini</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">45 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--outline">
+        Medium
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>4 salmon fillets (approx. 180g each)</li>
+        
+        <li>2 tbsp white miso paste</li>
+        
+        <li>1 tbsp soy sauce</li>
+        
+        <li>1 tbsp honey</li>
+        
+        <li>1 tsp sesame oil</li>
+        
+        <li>1 tsp fresh ginger, grated (optional)</li>
+        
+        <li>1.5 cups jasmine rice</li>
+        
+        <li>400ml coconut milk</li>
+        
+        <li>1 cup water</li>
+        
+        <li>1 tsp salt</li>
+        
+        <li>2 bunches broccolini</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>Lemon wedges</li>
+        
+        <li>1/2 cucumber, thinly sliced (to serve)</li>
+        
+        <li>2 spring onions, sliced (to serve)</li>
+        
+        <li>1 tbsp sesame seeds (to serve)</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Mix miso paste, soy sauce, honey and sesame oil together. Add grated ginger if using. Coat salmon fillets and leave to marinate for 15–30 minutes.</li>
+        
+        <li>Rinse jasmine rice until water runs clear. Combine rice, coconut milk, water and salt in a saucepan. Bring to a boil, reduce heat to low, cover and cook for 12 minutes. Remove from heat and leave covered for 5 minutes.</li>
+        
+        <li>Preheat oven to 200°C. Place marinated salmon on a lined baking tray. Roast for 12–15 minutes depending on thickness — it should be just cooked through with a slightly lacquered top.</li>
+        
+        <li>While salmon roasts, heat a large heavy pan or griddle until very hot. Toss broccolini with olive oil and salt. Char in the hot pan for 4–5 minutes, turning occasionally, until bright green and blistered in places.</li>
+        
+        <li>Serve salmon over coconut rice, broccolini alongside, with cucumber and spring onion scattered over the top. Finish with sesame seeds and a lemon wedge.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The miso marinade is the whole point — don&#39;t skimp on the marinating time. Charred broccolini is the preferred green. This works as a complete dinner; everything is timed to come together at once if you start the rice first.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Works with ocean trout or barramundi. Swap broccolini for broccolini or bok choy. Use regular short-grain rice if jasmine isn&#39;t available.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">seafood</span><span class="tag">impressive</span><span class="tag">family-favourite</span><span class="tag">full-meal</span><span class="tag">weeknight</span><span class="tag">entertaining</span><span class="tag">healthy-ish</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-hidden-zucchini-pesto-pasta">
+
+  <!-- Image -->
+  
+  <img src="../images/source/hidden-zucchini-pesto-pasta.jpg"
+       alt="Hidden Zucchini Pesto Pasta"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Hidden Zucchini Pesto Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Hidden Zucchini Pesto Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">30 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>400g pasta (penne, rigatoni or fusilli)</li>
+        
+        <li>2 medium zucchini, finely grated</li>
+        
+        <li>190g good-quality store-bought pesto</li>
+        
+        <li>300g cherry tomatoes, halved</li>
+        
+        <li>Zest and juice of 1 lemon</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>Handful fresh basil</li>
+        
+        <li>Handful flat-leaf parsley</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.</li>
+        
+        <li>While pasta cooks, heat a generous glug of olive oil in a large pan over medium heat. Add grated zucchini with a pinch of salt. Cook, stirring occasionally, for 8–10 minutes until collapsed and sweet — it should lose most of its moisture.</li>
+        
+        <li>Add halved cherry tomatoes to the zucchini and cook for 3–4 minutes until just beginning to soften.</li>
+        
+        <li>Remove from heat. Stir through pesto, lemon zest, a squeeze of lemon juice and parmesan.</li>
+        
+        <li>Add drained pasta and toss to combine, adding pasta water a splash at a time to loosen the sauce to a glossy coat.</li>
+        
+        <li>Finish with basil, parsley, black pepper and extra parmesan.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The lemon is essential for lifting store-bought pesto — don&#39;t skip it. The zucchini is deliberately hidden; grating it finely means it melts into the sauce and fussy eaters won&#39;t notice it. This is an intentional strategy, not an accident.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Swap zucchini for finely grated carrot or spinach. Use homemade pesto if you have it.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pesto pasta in a wide bowl with visible zucchini, cherry tomatoes and fresh basil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">hidden-veg</span><span class="tag">kid-friendly</span><span class="tag">weeknight</span><span class="tag">vegetarian</span><span class="tag">quick</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-vegetarian-lasagna">
+
+  <!-- Image -->
+  
+  <img src="../images/source/vegetarian-lasagna.jpg"
+       alt="Vegetarian Lasagna"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Vegetarian Lasagna
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Vegetarian Lasagna</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">90 min</span>
+      <span class="badge badge--neutral">Serves 6-8</span>
+      <span class="badge badge">
+        Advanced
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>Dried lasagna sheets (enough for 3-4 layers in your dish)</li>
+        
+        <li>2 onions, diced</li>
+        
+        <li>3 garlic cloves, minced</li>
+        
+        <li>2 zucchini, diced</li>
+        
+        <li>250g mushrooms, finely chopped</li>
+        
+        <li>2 carrots, grated</li>
+        
+        <li>2 x 400g tins crushed tomatoes</li>
+        
+        <li>2 tbsp tomato paste</li>
+        
+        <li>1 tsp dried oregano</li>
+        
+        <li>1 tsp dried Italian herbs</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+        <li>500g ricotta</li>
+        
+        <li>2 cups grated mozzarella</li>
+        
+        <li>1 cup finely grated parmesan</li>
+        
+        <li>1 egg</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Preheat oven to 190°C.</li>
+        
+        <li>Heat a generous glug of olive oil in a large pan over medium heat. Add onion with a pinch of salt and cook for 8 minutes until soft. Add garlic, cook 1 minute.</li>
+        
+        <li>Add zucchini, mushrooms and carrot. Cook for 10–12 minutes, stirring occasionally, until the vegetables have softened and reduced significantly.</li>
+        
+        <li>Stir in tomato paste and cook for 2 minutes. Add crushed tomatoes and dried herbs. Season well. Simmer for 20–25 minutes until the sauce is thick and rich. Taste and adjust seasoning.</li>
+        
+        <li>In a bowl, mix ricotta with the egg, half the parmesan, and 1/2 cup of mozzarella. Season with salt and pepper.</li>
+        
+        <li>Spread a thin layer of vegetable sauce across the base of a large baking dish. Add a layer of lasagna sheets. Top with vegetable sauce, then dollops of the ricotta mixture. Repeat layers — sauce, sheets, ricotta — finishing with a final layer of sauce.</li>
+        
+        <li>Top generously with remaining mozzarella and parmesan.</li>
+        
+        <li>Cover tightly with foil and bake for 40 minutes. Remove foil and bake for a further 20 minutes until golden and bubbling.</li>
+        
+        <li>Rest for at least 15 minutes before cutting and serving.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    This should be genuinely delicious, not consolation vegetarian food. Resting is mandatory — it holds together so much better. Make it the day before and reheat; the flavours deepen overnight. The ricotta layer is what separates this from a basic bake.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add a layer of spinach for extra veg. Use fresh pasta sheets for a more luxurious result. Add a small tin of lentils to the sauce for extra substance.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Rocket and parmesan salad, Garlic bread, Good red wine</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of a slice of vegetarian lasagna served on a white plate, layers visible, golden top, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">vegetarian</span><span class="tag">comfort-food</span><span class="tag">entertaining</span><span class="tag">make-ahead</span><span class="tag">family-favourite</span><span class="tag">pasta</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-tomato-herb-pasta">
+
+  <!-- Image -->
+  
+  <div class="recipe-image recipe-image--placeholder">
+    Tomato Herb Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Tomato Herb Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">30 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>400g pasta</li>
+        
+        <li>500g cherry tomatoes</li>
+        
+        <li>3 garlic cloves, finely sliced</li>
+        
+        <li>1/2 cup good-quality store-bought pesto</li>
+        
+        <li>Large handful fresh basil</li>
+        
+        <li>Large handful flat-leaf parsley</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.</li>
+        
+        <li>Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water.</li>
+        
+        <li>In a large pan, gently cook garlic in olive oil for 30 seconds. Add roasted tomatoes and their juices. Stir in pesto.</li>
+        
+        <li>Add drained pasta and toss, adding pasta water to loosen to a glossy sauce.</li>
+        
+        <li>Remove from heat and stir through basil, parsley and parmesan. Season to taste.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Simple and reliable. Roasting the tomatoes makes a big difference even for a quick midweek dinner. Fresh herbs added at the end are what make it feel fresh rather than jar-sauce.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add a tin of cannellini beans for substance. Works with any pasta shape.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pasta with roasted cherry tomatoes and fresh herbs in a wide bowl, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">weeknight</span><span class="tag">kid-friendly</span><span class="tag">vegetarian</span><span class="tag">quick</span><span class="tag">herbs</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+  
+  <section id="section-pasta">
+    <div class="section-header">
+      <h2>Pasta</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-tuna-pasta-roasted-tomatoes">
+
+  <!-- Image -->
+  
+  <img src="../images/source/tuna-pasta-roasted-tomatoes.jpg"
+       alt="10/10 Tuna Pasta"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: 10/10 Tuna Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">10/10 Tuna Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">35 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+    <div class="recipe-ratings">
+      <span><strong>Nathan</strong> 10.0/10</span>
+      
+      
+    </div>
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>500g spaghetti</li>
+        
+        <li>2 x 185g tins tuna in olive oil, drained lightly</li>
+        
+        <li>500g cherry tomatoes</li>
+        
+        <li>3 garlic cloves, finely sliced</li>
+        
+        <li>1/2 cup kalamata olives, pitted and roughly chopped</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>1/2 cup flat-leaf parsley, chopped</li>
+        
+        <li>1 lemon (optional)</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.</li>
+        
+        <li>Cook spaghetti in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.</li>
+        
+        <li>In a large pan, gently cook garlic in olive oil over medium heat for about 30 seconds until just golden.</li>
+        
+        <li>Add tuna and olives to the pan, keeping some texture in the tuna — don&#39;t mash it.</li>
+        
+        <li>Add the roasted tomatoes and their juices. Stir to combine.</li>
+        
+        <li>Add the drained pasta, parmesan and enough reserved pasta water to create a glossy, cohesive sauce.</li>
+        
+        <li>Finish with parsley, plenty of black pepper, and extra parmesan. Add a little lemon zest or juice only if the dish needs lift.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Roasted tomatoes are non-negotiable — they concentrate and sweeten in a way pan-blistered ones never do. Olives belong in this dish; they&#39;re not too much. Keep it glossy, not dry — add pasta water generously. Tuna in olive oil is the move.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Tinned salmon works as a swap. Add capers if you don&#39;t have olives. Linguine or rigatoni in place of spaghetti.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Garlic bread, Rocket and parmesan salad, Strawberries or simple dessert</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of spaghetti with roasted cherry tomatoes, tuna and kalamata olives in a white ceramic bowl, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">seafood</span><span class="tag">weeknight</span><span class="tag">kid-friendly</span><span class="tag">family-favourite</span><span class="tag">quick</span><span class="tag">pantry</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-hidden-zucchini-pesto-pasta">
+
+  <!-- Image -->
+  
+  <img src="../images/source/hidden-zucchini-pesto-pasta.jpg"
+       alt="Hidden Zucchini Pesto Pasta"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Hidden Zucchini Pesto Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Hidden Zucchini Pesto Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">30 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>400g pasta (penne, rigatoni or fusilli)</li>
+        
+        <li>2 medium zucchini, finely grated</li>
+        
+        <li>190g good-quality store-bought pesto</li>
+        
+        <li>300g cherry tomatoes, halved</li>
+        
+        <li>Zest and juice of 1 lemon</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>Handful fresh basil</li>
+        
+        <li>Handful flat-leaf parsley</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water before draining.</li>
+        
+        <li>While pasta cooks, heat a generous glug of olive oil in a large pan over medium heat. Add grated zucchini with a pinch of salt. Cook, stirring occasionally, for 8–10 minutes until collapsed and sweet — it should lose most of its moisture.</li>
+        
+        <li>Add halved cherry tomatoes to the zucchini and cook for 3–4 minutes until just beginning to soften.</li>
+        
+        <li>Remove from heat. Stir through pesto, lemon zest, a squeeze of lemon juice and parmesan.</li>
+        
+        <li>Add drained pasta and toss to combine, adding pasta water a splash at a time to loosen the sauce to a glossy coat.</li>
+        
+        <li>Finish with basil, parsley, black pepper and extra parmesan.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The lemon is essential for lifting store-bought pesto — don&#39;t skip it. The zucchini is deliberately hidden; grating it finely means it melts into the sauce and fussy eaters won&#39;t notice it. This is an intentional strategy, not an accident.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Swap zucchini for finely grated carrot or spinach. Use homemade pesto if you have it.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pesto pasta in a wide bowl with visible zucchini, cherry tomatoes and fresh basil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">hidden-veg</span><span class="tag">kid-friendly</span><span class="tag">weeknight</span><span class="tag">vegetarian</span><span class="tag">quick</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-tomato-herb-pasta">
+
+  <!-- Image -->
+  
+  <div class="recipe-image recipe-image--placeholder">
+    Tomato Herb Pasta
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Tomato Herb Pasta</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">30 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>400g pasta</li>
+        
+        <li>500g cherry tomatoes</li>
+        
+        <li>3 garlic cloves, finely sliced</li>
+        
+        <li>1/2 cup good-quality store-bought pesto</li>
+        
+        <li>Large handful fresh basil</li>
+        
+        <li>Large handful flat-leaf parsley</li>
+        
+        <li>1/2 cup finely grated parmesan, plus extra to serve</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat oven to 220°C. Toss cherry tomatoes with olive oil, salt and pepper. Roast for 18–20 minutes until blistered and collapsing.</li>
+        
+        <li>Cook pasta in well-salted boiling water until al dente. Reserve 1 cup pasta water.</li>
+        
+        <li>In a large pan, gently cook garlic in olive oil for 30 seconds. Add roasted tomatoes and their juices. Stir in pesto.</li>
+        
+        <li>Add drained pasta and toss, adding pasta water to loosen to a glossy sauce.</li>
+        
+        <li>Remove from heat and stir through basil, parsley and parmesan. Season to taste.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Simple and reliable. Roasting the tomatoes makes a big difference even for a quick midweek dinner. Fresh herbs added at the end are what make it feel fresh rather than jar-sauce.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add a tin of cannellini beans for substance. Works with any pasta shape.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Simple green salad, Garlic bread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of pasta with roasted cherry tomatoes and fresh herbs in a wide bowl, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">pasta</span><span class="tag">weeknight</span><span class="tag">kid-friendly</span><span class="tag">vegetarian</span><span class="tag">quick</span><span class="tag">herbs</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+  
+  <section id="section-seafood">
+    <div class="section-header">
+      <h2>Seafood</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
+
+  <!-- Image -->
+  
+  <img src="../images/source/miso-salmon-coconut-rice.jpg"
+       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Miso Salmon with Coconut Rice and Charred Broccolini
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Miso Salmon with Coconut Rice and Charred Broccolini</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">45 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--outline">
+        Medium
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>4 salmon fillets (approx. 180g each)</li>
+        
+        <li>2 tbsp white miso paste</li>
+        
+        <li>1 tbsp soy sauce</li>
+        
+        <li>1 tbsp honey</li>
+        
+        <li>1 tsp sesame oil</li>
+        
+        <li>1 tsp fresh ginger, grated (optional)</li>
+        
+        <li>1.5 cups jasmine rice</li>
+        
+        <li>400ml coconut milk</li>
+        
+        <li>1 cup water</li>
+        
+        <li>1 tsp salt</li>
+        
+        <li>2 bunches broccolini</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>Lemon wedges</li>
+        
+        <li>1/2 cucumber, thinly sliced (to serve)</li>
+        
+        <li>2 spring onions, sliced (to serve)</li>
+        
+        <li>1 tbsp sesame seeds (to serve)</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Mix miso paste, soy sauce, honey and sesame oil together. Add grated ginger if using. Coat salmon fillets and leave to marinate for 15–30 minutes.</li>
+        
+        <li>Rinse jasmine rice until water runs clear. Combine rice, coconut milk, water and salt in a saucepan. Bring to a boil, reduce heat to low, cover and cook for 12 minutes. Remove from heat and leave covered for 5 minutes.</li>
+        
+        <li>Preheat oven to 200°C. Place marinated salmon on a lined baking tray. Roast for 12–15 minutes depending on thickness — it should be just cooked through with a slightly lacquered top.</li>
+        
+        <li>While salmon roasts, heat a large heavy pan or griddle until very hot. Toss broccolini with olive oil and salt. Char in the hot pan for 4–5 minutes, turning occasionally, until bright green and blistered in places.</li>
+        
+        <li>Serve salmon over coconut rice, broccolini alongside, with cucumber and spring onion scattered over the top. Finish with sesame seeds and a lemon wedge.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The miso marinade is the whole point — don&#39;t skimp on the marinating time. Charred broccolini is the preferred green. This works as a complete dinner; everything is timed to come together at once if you start the rice first.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Works with ocean trout or barramundi. Swap broccolini for broccolini or bok choy. Use regular short-grain rice if jasmine isn&#39;t available.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">seafood</span><span class="tag">impressive</span><span class="tag">family-favourite</span><span class="tag">full-meal</span><span class="tag">weeknight</span><span class="tag">entertaining</span><span class="tag">healthy-ish</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+  
+  <section id="section-vegetarian">
+    <div class="section-header">
+      <h2>Vegetarian</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-vegetarian-lasagna">
+
+  <!-- Image -->
+  
+  <img src="../images/source/vegetarian-lasagna.jpg"
+       alt="Vegetarian Lasagna"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Vegetarian Lasagna
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Vegetarian Lasagna</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">90 min</span>
+      <span class="badge badge--neutral">Serves 6-8</span>
+      <span class="badge badge">
+        Advanced
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>Dried lasagna sheets (enough for 3-4 layers in your dish)</li>
+        
+        <li>2 onions, diced</li>
+        
+        <li>3 garlic cloves, minced</li>
+        
+        <li>2 zucchini, diced</li>
+        
+        <li>250g mushrooms, finely chopped</li>
+        
+        <li>2 carrots, grated</li>
+        
+        <li>2 x 400g tins crushed tomatoes</li>
+        
+        <li>2 tbsp tomato paste</li>
+        
+        <li>1 tsp dried oregano</li>
+        
+        <li>1 tsp dried Italian herbs</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+        <li>500g ricotta</li>
+        
+        <li>2 cups grated mozzarella</li>
+        
+        <li>1 cup finely grated parmesan</li>
+        
+        <li>1 egg</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Preheat oven to 190°C.</li>
+        
+        <li>Heat a generous glug of olive oil in a large pan over medium heat. Add onion with a pinch of salt and cook for 8 minutes until soft. Add garlic, cook 1 minute.</li>
+        
+        <li>Add zucchini, mushrooms and carrot. Cook for 10–12 minutes, stirring occasionally, until the vegetables have softened and reduced significantly.</li>
+        
+        <li>Stir in tomato paste and cook for 2 minutes. Add crushed tomatoes and dried herbs. Season well. Simmer for 20–25 minutes until the sauce is thick and rich. Taste and adjust seasoning.</li>
+        
+        <li>In a bowl, mix ricotta with the egg, half the parmesan, and 1/2 cup of mozzarella. Season with salt and pepper.</li>
+        
+        <li>Spread a thin layer of vegetable sauce across the base of a large baking dish. Add a layer of lasagna sheets. Top with vegetable sauce, then dollops of the ricotta mixture. Repeat layers — sauce, sheets, ricotta — finishing with a final layer of sauce.</li>
+        
+        <li>Top generously with remaining mozzarella and parmesan.</li>
+        
+        <li>Cover tightly with foil and bake for 40 minutes. Remove foil and bake for a further 20 minutes until golden and bubbling.</li>
+        
+        <li>Rest for at least 15 minutes before cutting and serving.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    This should be genuinely delicious, not consolation vegetarian food. Resting is mandatory — it holds together so much better. Make it the day before and reheat; the flavours deepen overnight. The ricotta layer is what separates this from a basic bake.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add a layer of spinach for extra veg. Use fresh pasta sheets for a more luxurious result. Add a small tin of lentils to the sauce for extra substance.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Rocket and parmesan salad, Garlic bread, Good red wine</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of a slice of vegetarian lasagna served on a white plate, layers visible, golden top, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">vegetarian</span><span class="tag">comfort-food</span><span class="tag">entertaining</span><span class="tag">make-ahead</span><span class="tag">family-favourite</span><span class="tag">pasta</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+  
+  <section id="section-brunch-breakfast">
+    <div class="section-header">
+      <h2>Brunch &amp; Breakfast</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-shakshouka-feast">
+
+  <!-- Image -->
+  
+  <img src="../images/source/shakshouka-feast.jpg"
+       alt="Shakshouka Feast"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Shakshouka Feast
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Shakshouka Feast</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">45 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--outline">
+        Medium
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>1 onion, diced</li>
+        
+        <li>1 red capsicum, diced</li>
+        
+        <li>3 garlic cloves, minced</li>
+        
+        <li>2 tsp ground cumin</li>
+        
+        <li>1 tsp smoked paprika</li>
+        
+        <li>1/2 tsp chilli flakes (optional)</li>
+        
+        <li>800g crushed tomatoes (2 x 400g tins)</li>
+        
+        <li>6 eggs</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+        <li>Handful flat-leaf parsley or coriander, roughly chopped</li>
+        
+        <li>1 cup Greek yoghurt</li>
+        
+        <li>1 garlic clove, finely grated</li>
+        
+        <li>Juice of 1/2 lemon</li>
+        
+        <li>Extra olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>2 ripe avocados, sliced or smashed</li>
+        
+        <li>Good bread for serving (sourdough or Turkish)</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat a generous glug of olive oil in a large, wide ovenproof pan over medium heat. Add onion and capsicum with a pinch of salt and cook for 8–10 minutes until soft and sweet.</li>
+        
+        <li>Add garlic, cumin, paprika and chilli flakes. Stir and cook for 1–2 minutes until fragrant.</li>
+        
+        <li>Pour in the crushed tomatoes. Stir well, then simmer over medium-low heat for 12–15 minutes until the sauce has thickened and deepened in flavour. Season with salt and pepper.</li>
+        
+        <li>Make 6 wells in the sauce using the back of a spoon. Crack an egg into each well. Cover with a lid and cook on medium-low heat for 6–8 minutes until the whites are just set but the yolks are still runny.</li>
+        
+        <li>While eggs cook, mix Greek yoghurt with grated garlic, lemon juice, a drizzle of olive oil and a pinch of salt. Set aside.</li>
+        
+        <li>Scatter the shakshouka with parsley or coriander. Serve straight from the pan alongside the lemon garlic yoghurt, sliced or smashed avocado, and plenty of bread.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Serve this as a whole spread, not just eggs in sauce. The lemon garlic yoghurt is not optional — it makes the whole thing. Good bread is essential. Avocado rounds it out as a proper brunch feast.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add crumbled feta on top. Use roasted capsicum from a jar for speed. Swap yoghurt for labneh.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Lemon garlic yoghurt, Sliced avocado, Good sourdough or pita, Simple herb salad</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of shakshouka in a cast iron pan with six eggs, served on a table spread with yoghurt, avocado and bread, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">brunch</span><span class="tag">vegetarian</span><span class="tag">full-meal</span><span class="tag">entertaining</span><span class="tag">weekend</span><span class="tag">impressive</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+  
+  <section id="section-entertaining">
+    <div class="section-header">
+      <h2>Entertaining</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-miso-salmon-coconut-rice">
+
+  <!-- Image -->
+  
+  <img src="../images/source/miso-salmon-coconut-rice.jpg"
+       alt="Miso Salmon with Coconut Rice and Charred Broccolini"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Miso Salmon with Coconut Rice and Charred Broccolini
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Miso Salmon with Coconut Rice and Charred Broccolini</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">45 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--outline">
+        Medium
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>4 salmon fillets (approx. 180g each)</li>
+        
+        <li>2 tbsp white miso paste</li>
+        
+        <li>1 tbsp soy sauce</li>
+        
+        <li>1 tbsp honey</li>
+        
+        <li>1 tsp sesame oil</li>
+        
+        <li>1 tsp fresh ginger, grated (optional)</li>
+        
+        <li>1.5 cups jasmine rice</li>
+        
+        <li>400ml coconut milk</li>
+        
+        <li>1 cup water</li>
+        
+        <li>1 tsp salt</li>
+        
+        <li>2 bunches broccolini</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>Lemon wedges</li>
+        
+        <li>1/2 cucumber, thinly sliced (to serve)</li>
+        
+        <li>2 spring onions, sliced (to serve)</li>
+        
+        <li>1 tbsp sesame seeds (to serve)</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Mix miso paste, soy sauce, honey and sesame oil together. Add grated ginger if using. Coat salmon fillets and leave to marinate for 15–30 minutes.</li>
+        
+        <li>Rinse jasmine rice until water runs clear. Combine rice, coconut milk, water and salt in a saucepan. Bring to a boil, reduce heat to low, cover and cook for 12 minutes. Remove from heat and leave covered for 5 minutes.</li>
+        
+        <li>Preheat oven to 200°C. Place marinated salmon on a lined baking tray. Roast for 12–15 minutes depending on thickness — it should be just cooked through with a slightly lacquered top.</li>
+        
+        <li>While salmon roasts, heat a large heavy pan or griddle until very hot. Toss broccolini with olive oil and salt. Char in the hot pan for 4–5 minutes, turning occasionally, until bright green and blistered in places.</li>
+        
+        <li>Serve salmon over coconut rice, broccolini alongside, with cucumber and spring onion scattered over the top. Finish with sesame seeds and a lemon wedge.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The miso marinade is the whole point — don&#39;t skimp on the marinating time. Charred broccolini is the preferred green. This works as a complete dinner; everything is timed to come together at once if you start the rice first.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Works with ocean trout or barramundi. Swap broccolini for broccolini or bok choy. Use regular short-grain rice if jasmine isn&#39;t available.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Cucumber and spring onion garnish, Sesame seeds, Cold Sapporo or sake</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of miso-glazed salmon fillet on coconut rice with charred broccolini, natural window light, shallow depth of field, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">seafood</span><span class="tag">impressive</span><span class="tag">family-favourite</span><span class="tag">full-meal</span><span class="tag">weeknight</span><span class="tag">entertaining</span><span class="tag">healthy-ish</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-shakshouka-feast">
+
+  <!-- Image -->
+  
+  <img src="../images/source/shakshouka-feast.jpg"
+       alt="Shakshouka Feast"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Shakshouka Feast
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Shakshouka Feast</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">45 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--outline">
+        Medium
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>1 onion, diced</li>
+        
+        <li>1 red capsicum, diced</li>
+        
+        <li>3 garlic cloves, minced</li>
+        
+        <li>2 tsp ground cumin</li>
+        
+        <li>1 tsp smoked paprika</li>
+        
+        <li>1/2 tsp chilli flakes (optional)</li>
+        
+        <li>800g crushed tomatoes (2 x 400g tins)</li>
+        
+        <li>6 eggs</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+        <li>Handful flat-leaf parsley or coriander, roughly chopped</li>
+        
+        <li>1 cup Greek yoghurt</li>
+        
+        <li>1 garlic clove, finely grated</li>
+        
+        <li>Juice of 1/2 lemon</li>
+        
+        <li>Extra olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>2 ripe avocados, sliced or smashed</li>
+        
+        <li>Good bread for serving (sourdough or Turkish)</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat a generous glug of olive oil in a large, wide ovenproof pan over medium heat. Add onion and capsicum with a pinch of salt and cook for 8–10 minutes until soft and sweet.</li>
+        
+        <li>Add garlic, cumin, paprika and chilli flakes. Stir and cook for 1–2 minutes until fragrant.</li>
+        
+        <li>Pour in the crushed tomatoes. Stir well, then simmer over medium-low heat for 12–15 minutes until the sauce has thickened and deepened in flavour. Season with salt and pepper.</li>
+        
+        <li>Make 6 wells in the sauce using the back of a spoon. Crack an egg into each well. Cover with a lid and cook on medium-low heat for 6–8 minutes until the whites are just set but the yolks are still runny.</li>
+        
+        <li>While eggs cook, mix Greek yoghurt with grated garlic, lemon juice, a drizzle of olive oil and a pinch of salt. Set aside.</li>
+        
+        <li>Scatter the shakshouka with parsley or coriander. Serve straight from the pan alongside the lemon garlic yoghurt, sliced or smashed avocado, and plenty of bread.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    Serve this as a whole spread, not just eggs in sauce. The lemon garlic yoghurt is not optional — it makes the whole thing. Good bread is essential. Avocado rounds it out as a proper brunch feast.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add crumbled feta on top. Use roasted capsicum from a jar for speed. Swap yoghurt for labneh.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Lemon garlic yoghurt, Sliced avocado, Good sourdough or pita, Simple herb salad</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of shakshouka in a cast iron pan with six eggs, served on a table spread with yoghurt, avocado and bread, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">brunch</span><span class="tag">vegetarian</span><span class="tag">full-meal</span><span class="tag">entertaining</span><span class="tag">weekend</span><span class="tag">impressive</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-vegetarian-lasagna">
+
+  <!-- Image -->
+  
+  <img src="../images/source/vegetarian-lasagna.jpg"
+       alt="Vegetarian Lasagna"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Vegetarian Lasagna
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Vegetarian Lasagna</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">90 min</span>
+      <span class="badge badge--neutral">Serves 6-8</span>
+      <span class="badge badge">
+        Advanced
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      
+      <span class="badge">Entertaining ★</span>
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>Dried lasagna sheets (enough for 3-4 layers in your dish)</li>
+        
+        <li>2 onions, diced</li>
+        
+        <li>3 garlic cloves, minced</li>
+        
+        <li>2 zucchini, diced</li>
+        
+        <li>250g mushrooms, finely chopped</li>
+        
+        <li>2 carrots, grated</li>
+        
+        <li>2 x 400g tins crushed tomatoes</li>
+        
+        <li>2 tbsp tomato paste</li>
+        
+        <li>1 tsp dried oregano</li>
+        
+        <li>1 tsp dried Italian herbs</li>
+        
+        <li>Olive oil</li>
+        
+        <li>Salt and black pepper</li>
+        
+        <li>500g ricotta</li>
+        
+        <li>2 cups grated mozzarella</li>
+        
+        <li>1 cup finely grated parmesan</li>
+        
+        <li>1 egg</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Preheat oven to 190°C.</li>
+        
+        <li>Heat a generous glug of olive oil in a large pan over medium heat. Add onion with a pinch of salt and cook for 8 minutes until soft. Add garlic, cook 1 minute.</li>
+        
+        <li>Add zucchini, mushrooms and carrot. Cook for 10–12 minutes, stirring occasionally, until the vegetables have softened and reduced significantly.</li>
+        
+        <li>Stir in tomato paste and cook for 2 minutes. Add crushed tomatoes and dried herbs. Season well. Simmer for 20–25 minutes until the sauce is thick and rich. Taste and adjust seasoning.</li>
+        
+        <li>In a bowl, mix ricotta with the egg, half the parmesan, and 1/2 cup of mozzarella. Season with salt and pepper.</li>
+        
+        <li>Spread a thin layer of vegetable sauce across the base of a large baking dish. Add a layer of lasagna sheets. Top with vegetable sauce, then dollops of the ricotta mixture. Repeat layers — sauce, sheets, ricotta — finishing with a final layer of sauce.</li>
+        
+        <li>Top generously with remaining mozzarella and parmesan.</li>
+        
+        <li>Cover tightly with foil and bake for 40 minutes. Remove foil and bake for a further 20 minutes until golden and bubbling.</li>
+        
+        <li>Rest for at least 15 minutes before cutting and serving.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    This should be genuinely delicious, not consolation vegetarian food. Resting is mandatory — it holds together so much better. Make it the day before and reheat; the flavours deepen overnight. The ricotta layer is what separates this from a basic bake.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Add a layer of spinach for extra veg. Use fresh pasta sheets for a more luxurious result. Add a small tin of lentils to the sauce for extra substance.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Rocket and parmesan salad, Garlic bread, Good red wine</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of a slice of vegetarian lasagna served on a white plate, layers visible, golden top, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">vegetarian</span><span class="tag">comfort-food</span><span class="tag">entertaining</span><span class="tag">make-ahead</span><span class="tag">family-favourite</span><span class="tag">pasta</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-charred-broccolini">
+
+  <!-- Image -->
+  
+  <img src="../images/source/charred-broccolini.jpg"
+       alt="Charred Broccolini"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Charred Broccolini
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Charred Broccolini</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">10 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>2 bunches broccolini</li>
+        
+        <li>2 tbsp olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>Lemon wedges to serve</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat a large heavy-based pan or griddle over high heat until very hot — it should be slightly smoking.</li>
+        
+        <li>Toss broccolini with olive oil and a good pinch of salt.</li>
+        
+        <li>Add broccolini to the hot pan in a single layer. Cook for 3–4 minutes without moving, until charred and blistered on the underside.</li>
+        
+        <li>Turn and cook for another 2–3 minutes. The broccolini should be bright green, tender and charred in places.</li>
+        
+        <li>Serve immediately with lemon wedges.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The pan must be very hot before the broccolini goes in. Don&#39;t crowd the pan. The char is the whole point — don&#39;t be timid about it.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Works with regular broccoli florets, asparagus, or green beans. Add a pinch of chilli flakes or a drizzle of tahini to serve.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Miso salmon, Any protein, Lemon and sea salt</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of charred broccolini on a white ceramic plate, lemon wedge alongside, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">side</span><span class="tag">vegetarian</span><span class="tag">quick</span><span class="tag">healthy-ish</span><span class="tag">weeknight</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-lemon-garlic-yoghurt">
+
+  <!-- Image -->
+  
+  <img src="../images/source/lemon-garlic-yoghurt.jpg"
+       alt="Lemon Garlic Yoghurt"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Lemon Garlic Yoghurt
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Lemon Garlic Yoghurt</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">5 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>1 cup Greek yoghurt</li>
+        
+        <li>1 garlic clove, finely grated</li>
+        
+        <li>Juice of 1/2 lemon</li>
+        
+        <li>1 tbsp extra virgin olive oil</li>
+        
+        <li>Flaky salt</li>
+        
+        <li>Freshly cracked black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Combine Greek yoghurt, grated garlic and lemon juice. Mix well.</li>
+        
+        <li>Season with salt and taste — it should be bright and tangy.</li>
+        
+        <li>Transfer to a serving bowl, drizzle with olive oil and finish with cracked black pepper.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The yoghurt matters — use full-fat Greek yoghurt, not low-fat. This is the sauce that makes the shakshouka feast. Make it fresh just before serving.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Use labneh for a thicker, richer result. Add a pinch of za&#39;atar or sumac on top. A little tahini stirred through is excellent.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Shakshouka, Roasted vegetables, Falafel, Any Middle Eastern spread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of lemon garlic yoghurt in a small white bowl with a drizzle of olive oil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">sauce</span><span class="tag">side</span><span class="tag">vegetarian</span><span class="tag">brunch</span><span class="tag">quick</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+  
+  <section id="section-sides-sauces">
+    <div class="section-header">
+      <h2>Sides &amp; Sauces</h2>
+    </div>
+    
+      <article class="recipe-card" id="recipe-charred-broccolini">
+
+  <!-- Image -->
+  
+  <img src="../images/source/charred-broccolini.jpg"
+       alt="Charred Broccolini"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Charred Broccolini
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Charred Broccolini</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">10 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>2 bunches broccolini</li>
+        
+        <li>2 tbsp olive oil</li>
+        
+        <li>Salt</li>
+        
+        <li>Lemon wedges to serve</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Heat a large heavy-based pan or griddle over high heat until very hot — it should be slightly smoking.</li>
+        
+        <li>Toss broccolini with olive oil and a good pinch of salt.</li>
+        
+        <li>Add broccolini to the hot pan in a single layer. Cook for 3–4 minutes without moving, until charred and blistered on the underside.</li>
+        
+        <li>Turn and cook for another 2–3 minutes. The broccolini should be bright green, tender and charred in places.</li>
+        
+        <li>Serve immediately with lemon wedges.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The pan must be very hot before the broccolini goes in. Don&#39;t crowd the pan. The char is the whole point — don&#39;t be timid about it.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Works with regular broccoli florets, asparagus, or green beans. Add a pinch of chilli flakes or a drizzle of tahini to serve.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Miso salmon, Any protein, Lemon and sea salt</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of charred broccolini on a white ceramic plate, lemon wedge alongside, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">side</span><span class="tag">vegetarian</span><span class="tag">quick</span><span class="tag">healthy-ish</span><span class="tag">weeknight</span>
+  </div>
+  
+
+</article>
+    
+      <article class="recipe-card" id="recipe-lemon-garlic-yoghurt">
+
+  <!-- Image -->
+  
+  <img src="../images/source/lemon-garlic-yoghurt.jpg"
+       alt="Lemon Garlic Yoghurt"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: Lemon Garlic Yoghurt
+  </div>
+  
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">Lemon Garlic Yoghurt</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">5 min</span>
+      <span class="badge badge--neutral">Serves 4</span>
+      <span class="badge badge--green">
+        Easy
+      </span>
+      <span class="badge badge--green">Kid Friendly</span>
+      <span class="badge badge--green">Weeknight ★</span>
+      
+    </div>
+
+    <!-- Ratings -->
+    
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        
+        <li>1 cup Greek yoghurt</li>
+        
+        <li>1 garlic clove, finely grated</li>
+        
+        <li>Juice of 1/2 lemon</li>
+        
+        <li>1 tbsp extra virgin olive oil</li>
+        
+        <li>Flaky salt</li>
+        
+        <li>Freshly cracked black pepper</li>
+        
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        
+        <li>Combine Greek yoghurt, grated garlic and lemon juice. Mix well.</li>
+        
+        <li>Season with salt and taste — it should be bright and tangy.</li>
+        
+        <li>Transfer to a serving bowl, drizzle with olive oil and finish with cracked black pepper.</li>
+        
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    The yoghurt matters — use full-fat Greek yoghurt, not low-fat. This is the sauce that makes the shakshouka feast. Make it fresh just before serving.
+  </div>
+  
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    
+    <div><strong>Substitutions:</strong> Use labneh for a thicker, richer result. Add a pinch of za&#39;atar or sumac on top. A little tahini stirred through is excellent.</div>
+    
+    
+    <div><strong>Pairs well with:</strong> Shakshouka, Roasted vegetables, Falafel, Any Middle Eastern spread</div>
+    
+    
+    
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: Premium modern cookbook photograph of lemon garlic yoghurt in a small white bowl with a drizzle of olive oil, natural window light, warm neutral tones, modern Australian family cookbook aesthetic, no text, no people.</em></div>
+    
+  </div>
+
+  <!-- Tags -->
+  
+  <div class="recipe-tags">
+    <span class="tag">sauce</span><span class="tag">side</span><span class="tag">vegetarian</span><span class="tag">brunch</span><span class="tag">quick</span>
+  </div>
+  
+
+</article>
+    
+  </section>
+  
+  
+
+  <!-- ── Full Meal Builds ───────────────────────────────────── -->
+  <section id="section-full-meal-builds">
+    <div class="section-header">
+      <h2>Full Meal Builds</h2>
+      <p class="section-desc">Complete menu suggestions — component recipes linked throughout.</p>
+    </div>
+
+    
+    <div class="full-meal-card">
+      <h3>Salmon Dinner</h3>
+      
+      <p class="meal-description">A weeknight-capable Japanese-inspired dinner. Miso-glazed salmon over coconut rice with charred broccolini. Impressive enough for guests, easy enough for Tuesday.</p>
+      
+      <div class="meal-meta">
+        <span><strong>Serves:</strong> 4</span>
+        <span><strong>Time:</strong> 45 minutes</span>
+      </div>
+      <ul class="component-list">
+        
+        <li>
+          <span class="component-icon">→</span>
+          
+          <a href="#recipe-miso-salmon-coconut-rice">Miso Salmon with Coconut Rice and Charred Broccolini</a>
+          
+        </li>
+        
+        <li>
+          <span class="component-icon">→</span>
+          
+          <a href="#recipe-charred-broccolini">Charred Broccolini</a>
+          
+        </li>
+        
+      </ul>
+      
+      <div class="meal-notes">Start the rice first — it takes the longest. Get the broccolini into the hot pan while the salmon roasts. Everything lands on the table at the same time if you sequence it right. Add cucumber and spring onion at the end for freshness.</div>
+      
+      
+      <div class="occasion-tags">
+        <span class="tag">weeknight</span><span class="tag">entertaining</span><span class="tag">family</span>
+      </div>
+      
+    </div>
+    
+    <div class="full-meal-card">
+      <h3>Shakshouka Feast</h3>
+      
+      <p class="meal-description">A generous Middle Eastern brunch spread built around a pan of shakshouka. The lemon garlic yoghurt and avocado are part of the meal, not optional extras.</p>
+      
+      <div class="meal-meta">
+        <span><strong>Serves:</strong> 4-6</span>
+        <span><strong>Time:</strong> 45 minutes</span>
+      </div>
+      <ul class="component-list">
+        
+        <li>
+          <span class="component-icon">→</span>
+          
+          <a href="#recipe-shakshouka-feast">Shakshouka Feast</a>
+          
+        </li>
+        
+        <li>
+          <span class="component-icon">→</span>
+          
+          <a href="#recipe-lemon-garlic-yoghurt">Lemon Garlic Yoghurt</a>
+          
+        </li>
+        
+      </ul>
+      
+      <div class="meal-notes">Put the lemon garlic yoghurt and avocado on the table while the shakshouka simmers. Have good bread warm and ready. Serve straight from the pan.</div>
+      
+      
+      <div class="occasion-tags">
+        <span class="tag">brunch</span><span class="tag">entertaining</span><span class="tag">weekend</span>
+      </div>
+      
+    </div>
+    
+    <div class="full-meal-card">
+      <h3>Italian Family Night</h3>
+      
+      <p class="meal-description">A proper Italian family dinner. Either the 10/10 Tuna Pasta or the Vegetarian Lasagna as the centrepiece, with a rocket salad and garlic bread alongside.</p>
+      
+      <div class="meal-meta">
+        <span><strong>Serves:</strong> 4-6</span>
+        <span><strong>Time:</strong> 60-90 minutes depending on main</span>
+      </div>
+      <ul class="component-list">
+        
+        <li>
+          <span class="component-icon">→</span>
+          
+          <a href="#recipe-tuna-pasta-roasted-tomatoes">10/10 Tuna Pasta</a>
+          
+        </li>
+        
+        <li>
+          <span class="component-icon">→</span>
+          
+          <a href="#recipe-vegetarian-lasagna">Vegetarian Lasagna</a>
+          
+        </li>
+        
+      </ul>
+      
+      <div class="meal-notes">Choose one main — pasta for a weeknight-friendly version, lasagna for a proper occasion. The lasagna benefits from being made the day before. Finish with strawberries or something simple. Good red wine.</div>
+      
+      
+      <div class="occasion-tags">
+        <span class="tag">family</span><span class="tag">entertaining</span><span class="tag">weekend</span>
+      </div>
+      
+    </div>
+    
+  </section>
+
+  <!-- ── Recipe Index ───────────────────────────────────────── -->
+  <section class="recipe-index" id="section-recipe-index">
+    <h2>Recipe Index</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Recipe</th>
+          <th>Category</th>
+          <th>Cuisine</th>
+          <th>Serves</th>
+          <th>Time</th>
+          <th>Difficulty</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr>
+          <td><a href="#recipe-tuna-pasta-roasted-tomatoes">10/10 Tuna Pasta</a></td>
+          <td>Pasta</td>
+          <td>Italian-inspired</td>
+          <td>4</td>
+          <td>35min</td>
+          <td>Easy</td>
+        </tr>
+        
+        <tr>
+          <td><a href="#recipe-charred-broccolini">Charred Broccolini</a></td>
+          <td>Sides &amp; Sauces</td>
+          <td>Modern Australian</td>
+          <td>4</td>
+          <td>10min</td>
+          <td>Easy</td>
+        </tr>
+        
+        <tr>
+          <td><a href="#recipe-hidden-zucchini-pesto-pasta">Hidden Zucchini Pesto Pasta</a></td>
+          <td>Pasta</td>
+          <td>Italian-inspired</td>
+          <td>4</td>
+          <td>30min</td>
+          <td>Easy</td>
+        </tr>
+        
+        <tr>
+          <td><a href="#recipe-lemon-garlic-yoghurt">Lemon Garlic Yoghurt</a></td>
+          <td>Sides &amp; Sauces</td>
+          <td>Middle Eastern-inspired</td>
+          <td>4</td>
+          <td>5min</td>
+          <td>Easy</td>
+        </tr>
+        
+        <tr>
+          <td><a href="#recipe-miso-salmon-coconut-rice">Miso Salmon with Coconut Rice and Charred Broccolini</a></td>
+          <td>Seafood</td>
+          <td>Asian-inspired</td>
+          <td>4</td>
+          <td>45min</td>
+          <td>Medium</td>
+        </tr>
+        
+        <tr>
+          <td><a href="#recipe-shakshouka-feast">Shakshouka Feast</a></td>
+          <td>Brunch &amp; Breakfast</td>
+          <td>Middle Eastern-inspired</td>
+          <td>4</td>
+          <td>45min</td>
+          <td>Medium</td>
+        </tr>
+        
+        <tr>
+          <td><a href="#recipe-tomato-herb-pasta">Tomato Herb Pasta</a></td>
+          <td>Pasta</td>
+          <td>Italian-inspired</td>
+          <td>4</td>
+          <td>30min</td>
+          <td>Easy</td>
+        </tr>
+        
+        <tr>
+          <td><a href="#recipe-vegetarian-lasagna">Vegetarian Lasagna</a></td>
+          <td>Vegetarian</td>
+          <td>Italian</td>
+          <td>6-8</td>
+          <td>90min</td>
+          <td>Advanced</td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </section>
+
+</div><!-- /page-wrap -->
+</body>
+</html>
