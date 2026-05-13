@@ -1,0 +1,53 @@
+[
+  {
+    "full_meal_id": "salmon-dinner",
+    "meal_name": "Salmon Dinner",
+    "description": "A weeknight-capable Japanese-inspired dinner. Miso-glazed salmon over coconut rice with charred broccolini. Impressive enough for guests, easy enough for Tuesday.",
+    "recipe_ids": [
+      "miso-salmon-coconut-rice",
+      "charred-broccolini"
+    ],
+    "serves": "4",
+    "total_time_estimate": "45 minutes",
+    "occasions": [
+      "weeknight",
+      "entertaining",
+      "family"
+    ],
+    "notes": "Start the rice first — it takes the longest. Get the broccolini into the hot pan while the salmon roasts. Everything lands on the table at the same time if you sequence it right. Add cucumber and spring onion at the end for freshness."
+  },
+  {
+    "full_meal_id": "shakshouka-feast",
+    "meal_name": "Shakshouka Feast",
+    "description": "A generous Middle Eastern brunch spread built around a pan of shakshouka. The lemon garlic yoghurt and avocado are part of the meal, not optional extras.",
+    "recipe_ids": [
+      "shakshouka-feast",
+      "lemon-garlic-yoghurt"
+    ],
+    "serves": "4-6",
+    "total_time_estimate": "45 minutes",
+    "occasions": [
+      "brunch",
+      "entertaining",
+      "weekend"
+    ],
+    "notes": "Put the lemon garlic yoghurt and avocado on the table while the shakshouka simmers. Have good bread warm and ready. Serve straight from the pan."
+  },
+  {
+    "full_meal_id": "italian-family-night",
+    "meal_name": "Italian Family Night",
+    "description": "A proper Italian family dinner. Either the 10/10 Tuna Pasta or the Vegetarian Lasagna as the centrepiece, with a rocket salad and garlic bread alongside.",
+    "recipe_ids": [
+      "tuna-pasta-roasted-tomatoes",
+      "vegetarian-lasagna"
+    ],
+    "serves": "4-6",
+    "total_time_estimate": "60-90 minutes depending on main",
+    "occasions": [
+      "family",
+      "entertaining",
+      "weekend"
+    ],
+    "notes": "Choose one main — pasta for a weeknight-friendly version, lasagna for a proper occasion. The lasagna benefits from being made the day before. Finish with strawberries or something simple. Good red wine."
+  }
+]

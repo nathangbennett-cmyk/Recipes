@@ -1,0 +1,71 @@
+{
+  "categories": [
+    "Pasta",
+    "Seafood",
+    "Vegetarian",
+    "Brunch & Breakfast",
+    "Sides & Sauces",
+    "Entertaining",
+    "Family Favourites",
+    "Weeknight Winners",
+    "Full Meal"
+  ],
+  "cuisines": [
+    "Italian",
+    "Japanese",
+    "Middle Eastern",
+    "Australian",
+    "Mediterranean",
+    "Asian",
+    "French",
+    "Modern Australian",
+    "Italian-inspired",
+    "Asian-inspired",
+    "Middle Eastern-inspired"
+  ],
+  "dietary": [
+    "vegetarian",
+    "vegan",
+    "pescatarian",
+    "gluten-free",
+    "dairy-free",
+    "kid-friendly"
+  ],
+  "occasion": [
+    "weeknight",
+    "entertaining",
+    "family",
+    "brunch",
+    "weekend",
+    "quick",
+    "make-ahead",
+    "date-night"
+  ],
+  "method": [
+    "oven",
+    "stovetop",
+    "one-pan",
+    "pasta",
+    "salad",
+    "baked",
+    "roasted",
+    "charred"
+  ],
+  "custom": [
+    "pantry",
+    "hidden-veg",
+    "make-ahead",
+    "crowd-pleaser",
+    "family-favourite",
+    "comfort-food",
+    "impressive",
+    "healthy-ish",
+    "full-meal",
+    "seafood",
+    "sauce",
+    "side",
+    "recipetineats",
+    "ottolenghi",
+    "external-source"
+  ]
+}

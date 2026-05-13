@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Bennett Cookbook</title>
+  <style>
+    /* ─── Design System ─────────────────────────────────────────────────── */
+    :root {
+      --color-bg:          #FAF8F5;
+      --color-text:        #2C2C2C;
+      --color-accent:      #C0392B;
+      --color-accent-2:    #7D9E4A;
+      --color-section-bg:  #F0EBE3;
+      --color-border:      #D4C4B0;
+      --color-muted:       #6B6560;
+      --color-tweaks-bg:   #FFF8E7;
+      --color-tweaks-bd:   #E8A838;
+      --font-heading:      Georgia, 'Times New Roman', serif;
+      --font-body:         -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      --max-width:         900px;
+    }
+
+    /* ─── Reset & Base ──────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: normal; line-height: 1.25; }
+
+    a { color: var(--color-accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ─── Layout ────────────────────────────────────────────────────────── */
+    .page-wrap { max-width: var(--max-width); margin: 0 auto; padding: 2rem 2rem 4rem; }
+
+    /* ─── Cover Page ────────────────────────────────────────────────────── */
+    .cover-page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      text-align: center;
+      padding: 4rem 2rem;
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 4rem;
+    }
+
+    .cover-page .overline {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    h1.cookbook-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cover-subtitle {
+      font-family: var(--font-heading);
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--color-muted);
+      margin-bottom: 3rem;
+    }
+
+    .cover-meta {
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      margin-top: 3rem;
+    }
+
+    .cover-accent-line {
+      width: 60px;
+      height: 3px;
+      background: var(--color-accent);
+      margin: 1.5rem auto;
+    }
+
+    /* ─── Table of Contents ─────────────────────────────────────────────── */
+    .toc {
+      margin-bottom: 4rem;
+      padding: 2rem;
+      background: var(--color-section-bg);
+      border-radius: 8px;
+    }
+
+    .toc h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-accent);
+    }
+
+    .toc-list {
+      list-style: none;
+      columns: 2;
+      column-gap: 2rem;
+    }
+
+    .toc-list li {
+      padding: 0.4rem 0;
+      border-bottom: 1px dotted var(--color-border);
+      break-inside: avoid;
+    }
+
+    .toc-list a {
+      color: var(--color-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .toc-list a:hover { color: var(--color-accent); text-decoration: none; }
+
+    .toc-recipe-count {
+      font-size: 0.8rem;
+      color: var(--color-muted);
+      flex-shrink: 0;
+      margin-left: 0.5rem;
+    }
+
+    /* ─── Section Header ────────────────────────────────────────────────── */
+    .section-header {
+      background: var(--color-section-bg);
+      border-left: 6px solid var(--color-accent);
+      padding: 2rem 2rem 1.5rem;
+      margin: 4rem 0 2rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .section-header h2 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-header .section-desc {
+      color: var(--color-muted);
+      font-style: italic;
+    }
+
+    /* ─── Recipe Card ───────────────────────────────────────────────────── */
+    .recipe-card {
+      margin-bottom: 4rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .recipe-card:last-child { border-bottom: none; }
+
+    /* Header row: image + title block */
+    .recipe-card__header {
+      margin-bottom: 1.5rem;
+    }
+
+    .recipe-card__title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--color-text);
+      margin-bottom: 0.75rem;
+    }
+
+    /* Image */
+    .recipe-image {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .recipe-image--placeholder {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, var(--color-section-bg) 0%, var(--color-border) 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      color: var(--color-muted);
+      font-style: italic;
+      font-size: 0.875rem;
+    }
+
+    /* Metadata badges */
+    .recipe-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      background: var(--color-accent);
+      color: white;
+    }
+
+    .badge--green  { background: var(--color-accent-2, #7D9E4A); color: white; }
+    .badge--neutral { background: var(--color-border); color: var(--color-text); }
+    .badge--outline { background: transparent; border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+    /* Ratings */
+    .recipe-ratings {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+    }
+
+    .recipe-ratings span strong { color: var(--color-text); }
+
+    /* Body: ingredients + method */
+    .recipe-body {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .recipe-body h4 {
+      font-size: 0.875rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .recipe-ingredients ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .recipe-ingredients li {
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 0.9375rem;
+    }
+
+    .recipe-ingredients li:last-child { border-bottom: none; }
+
+    .recipe-method ol {
+      padding-left: 1.25rem;
+    }
+
+    .recipe-method li {
+      padding: 0.4rem 0;
+      font-size: 0.9375rem;
+    }
+
+    /* Nathan tweaks callout */
+    .nathan-tweaks {
+      background: var(--color-tweaks-bg);
+      border-left: 4px solid var(--color-tweaks-bd);
+      padding: 1rem 1.25rem;
+      margin: 1.25rem 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9375rem;
+    }
+
+    .nathan-tweaks-label {
+      font-weight: 700;
+      color: #8B6010;
+      font-size: 0.8125rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* Footer fields */
+    .recipe-footer {
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .recipe-footer strong { color: var(--color-text); }
+
+    /* Tags row */
+    .recipe-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 1rem;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--color-section-bg);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      font-size: 0.75rem;
+      color: var(--color-muted);
+    }
+
+    /* ─── Full Meal Builds ──────────────────────────────────────────────── */
+    .full-meal-card {
+      border: 2px solid var(--color-accent-2);
+      border-radius: 10px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .full-meal-card h3 {
+      font-size: 1.5rem;
+      color: var(--color-text);
+      margin-bottom: 0.5rem;
+    }
+
+    .full-meal-card .meal-description {
+      color: var(--color-muted);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .full-meal-card .meal-meta {
+      font-size: 0.875rem;
+      color: var(--color-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .full-meal-card .component-list {
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+
+    .full-meal-card .component-list li {
+      padding: 0.35rem 0;
+      border-bottom: 1px dashed var(--color-border);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .full-meal-card .component-list li:last-child { border-bottom: none; }
+
+    .full-meal-card .component-list a { color: var(--color-text); }
+    .full-meal-card .component-list a:hover { color: var(--color-accent); }
+
+    .component-icon { color: var(--color-accent-2); font-weight: bold; }
+
+    .meal-notes {
+      background: var(--color-section-bg);
+      padding: 0.75rem 1rem;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      margin-top: 0.75rem;
+    }
+
+    .occasion-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    /* ─── Recipe Index ──────────────────────────────────────────────────── */
+    .recipe-index {
+      margin-top: 4rem;
+    }
+
+    .recipe-index h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--color-text);
+    }
+
+    .recipe-index table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .recipe-index th {
+      background: var(--color-accent);
+      color: white;
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .recipe-index td {
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: middle;
+    }
+
+    .recipe-index tr:nth-child(even) td { background: var(--color-section-bg); }
+    .recipe-index tr:hover td { background: #f0e8de; }
+
+    /* ─── Print ─────────────────────────────────────────────────────────── */
+    @media print {
+      body { font-size: 11pt; background: white; }
+
+      .cover-page { page-break-after: always; min-height: auto; padding: 3cm 2cm; }
+      .toc { page-break-after: always; background: none; border: 1px solid #ccc; }
+      .section-header { page-break-before: always; background: none; }
+      .recipe-card { page-break-inside: avoid; }
+      .full-meal-card { page-break-inside: avoid; }
+
+      a { color: inherit; text-decoration: none; }
+      .badge { border: 1px solid currentColor; background: none; color: inherit; }
+
+      .recipe-body { display: grid; grid-template-columns: 1fr 2fr; }
+    }
+
+    /* ─── Responsive ────────────────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .recipe-body { grid-template-columns: 1fr; }
+      .toc-list { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ── Cover ─────────────────────────────────────────────── -->
+  <div class="cover-page">
+    <p class="overline">A Family Recipe Collection</p>
+    <h1 class="cookbook-title">The Bennett Cookbook</h1>
+    <div class="cover-accent-line"></div>
+    <p class="cover-subtitle">Curated, tested, and loved.</p>
+    <p class="cover-meta">{{ total_recipes }} recipes &nbsp;·&nbsp; {{ total_meals }} full meal builds &nbsp;·&nbsp; Generated {{ generated_date }}</p>
+  </div>
+
+  <!-- ── Table of Contents ──────────────────────────────────── -->
+  <div class="toc">
+    <h2>Contents</h2>
+    <ul class="toc-list">
+      {% for section_name, section_recipes in sections %}
+      <li>
+        <a href="#section-{{ section_name | slugify }}">
+          <span>{{ loop.index }}. {{ section_name }}</span>
+          <span class="toc-recipe-count">{{ section_recipes | length }} recipe{% if section_recipes | length != 1 %}s{% endif %}</span>
+        </a>
+      </li>
+      {% endfor %}
+      <li><a href="#section-full-meal-builds"><span>{{ sections | length + 1 }}. Full Meal Builds</span><span class="toc-recipe-count">{{ full_meals | length }}</span></a></li>
+      <li><a href="#section-recipe-index"><span>{{ sections | length + 2 }}. Recipe Index</span><span class="toc-recipe-count">{{ all_recipes | length }}</span></a></li>
+    </ul>
+  </div>
+
+  <!-- ── Recipe Sections ────────────────────────────────────── -->
+  {% for section_name, section_recipes in sections %}
+  {% if section_recipes %}
+  <section id="section-{{ section_name | slugify }}">
+    <div class="section-header">
+      <h2>{{ section_name }}</h2>
+    </div>
+    {% for recipe in section_recipes %}
+      {% include 'recipe_card.html.j2' %}
+    {% endfor %}
+  </section>
+  {% endif %}
+  {% endfor %}
+
+  <!-- ── Full Meal Builds ───────────────────────────────────── -->
+  <section id="section-full-meal-builds">
+    <div class="section-header">
+      <h2>Full Meal Builds</h2>
+      <p class="section-desc">Complete menu suggestions — component recipes linked throughout.</p>
+    </div>
+
+    {% for meal in full_meals %}
+    <div class="full-meal-card">
+      <h3>{{ meal.meal_name }}</h3>
+      {% if meal.description %}
+      <p class="meal-description">{{ meal.description }}</p>
+      {% endif %}
+      <div class="meal-meta">
+        <span><strong>Serves:</strong> {{ meal.serves }}</span>
+        {% if meal.total_time_estimate %}<span><strong>Time:</strong> {{ meal.total_time_estimate }}</span>{% endif %}
+      </div>
+      <ul class="component-list">
+        {% for rid in meal.recipe_ids %}
+        <li>
+          <span class="component-icon">→</span>
+          {% if rid in recipe_lookup %}
+          <a href="#recipe-{{ rid }}">{{ recipe_lookup[rid].recipe_name }}</a>
+          {% else %}
+          <span>{{ rid }}</span>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% if meal.notes %}
+      <div class="meal-notes">{{ meal.notes }}</div>
+      {% endif %}
+      {% if meal.occasions %}
+      <div class="occasion-tags">
+        {% for occ in meal.occasions %}<span class="tag">{{ occ }}</span>{% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </section>
+
+  <!-- ── Recipe Index ───────────────────────────────────────── -->
+  <section class="recipe-index" id="section-recipe-index">
+    <h2>Recipe Index</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Recipe</th>
+          <th>Category</th>
+          <th>Cuisine</th>
+          <th>Serves</th>
+          <th>Time</th>
+          <th>Difficulty</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for recipe in all_recipes | sort(attribute='recipe_name') %}
+        <tr>
+          <td><a href="#recipe-{{ recipe.recipe_id }}">{{ recipe.recipe_name }}</a></td>
+          <td>{{ recipe.category }}</td>
+          <td>{{ recipe.cuisine }}</td>
+          <td>{{ recipe.serves }}</td>
+          <td>{{ recipe.total_time_minutes }}min</td>
+          <td>{{ recipe.difficulty.value }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+</div><!-- /page-wrap -->
+</body>
+</html>

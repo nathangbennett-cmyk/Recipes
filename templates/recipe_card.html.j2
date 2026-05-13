@@ -1,0 +1,96 @@
+<article class="recipe-card" id="recipe-{{ recipe.recipe_id }}">
+
+  <!-- Image -->
+  {% if recipe.image_file %}
+  <img src="../images/source/{{ recipe.image_file }}"
+       alt="{{ recipe.recipe_name }}"
+       class="recipe-image"
+       onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+  <div class="recipe-image recipe-image--placeholder" style="display:none">
+    Image: {{ recipe.recipe_name }}
+  </div>
+  {% else %}
+  <div class="recipe-image recipe-image--placeholder">
+    {{ recipe.recipe_name }}
+  </div>
+  {% endif %}
+
+  <!-- Title -->
+  <div class="recipe-card__header">
+    <h3 class="recipe-card__title">{{ recipe.recipe_name }}</h3>
+
+    <!-- Metadata badges -->
+    <div class="recipe-badges">
+      <span class="badge badge--neutral">{{ recipe.total_time_minutes }} min</span>
+      <span class="badge badge--neutral">Serves {{ recipe.serves }}</span>
+      <span class="badge {% if recipe.difficulty.value == 'Easy' %}badge--green{% elif recipe.difficulty.value == 'Advanced' %}badge{% else %}badge--outline{% endif %}">
+        {{ recipe.difficulty.value }}
+      </span>
+      {% if recipe.kid_friendly %}<span class="badge badge--green">Kid Friendly</span>{% endif %}
+      {% if recipe.weeknight_score and recipe.weeknight_score >= 8 %}<span class="badge badge--green">Weeknight ★</span>{% endif %}
+      {% if recipe.entertaining_score and recipe.entertaining_score >= 8 %}<span class="badge">Entertaining ★</span>{% endif %}
+    </div>
+
+    <!-- Ratings -->
+    {% if recipe.leah_rating or recipe.nina_rating or recipe.nathan_rating %}
+    <div class="recipe-ratings">
+      {% if recipe.nathan_rating %}<span><strong>Nathan</strong> {{ recipe.nathan_rating }}/10</span>{% endif %}
+      {% if recipe.leah_rating %}<span><strong>Leah</strong> {{ recipe.leah_rating }}/10</span>{% endif %}
+      {% if recipe.nina_rating %}<span><strong>Nina</strong> {{ recipe.nina_rating }}/10</span>{% endif %}
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Ingredients + Method -->
+  <div class="recipe-body">
+    <div class="recipe-ingredients">
+      <h4>Ingredients</h4>
+      <ul>
+        {% for ingredient in recipe.ingredients %}
+        <li>{{ ingredient }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="recipe-method">
+      <h4>Method</h4>
+      <ol>
+        {% for step in recipe.method %}
+        <li>{{ step }}</li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+
+  <!-- Nathan's Tweaks -->
+  {% if recipe.nathan_tweaks %}
+  <div class="nathan-tweaks">
+    <span class="nathan-tweaks-label">Nathan's Tweaks</span>
+    {{ recipe.nathan_tweaks }}
+  </div>
+  {% endif %}
+
+  <!-- Footer: substitutions, pairings, source -->
+  <div class="recipe-footer">
+    {% if recipe.substitutions %}
+    <div><strong>Substitutions:</strong> {{ recipe.substitutions }}</div>
+    {% endif %}
+    {% if recipe.pairings %}
+    <div><strong>Pairs well with:</strong> {{ recipe.pairings | join(', ') }}</div>
+    {% endif %}
+    {% if recipe.source_url %}
+    <div><strong>Source:</strong> <a href="{{ recipe.source_url }}" target="_blank">{{ recipe.source_name or 'View original' }}</a></div>
+    {% endif %}
+    {% if recipe.image_prompt %}
+    <div style="font-size:0.8rem;color:#aaa;width:100%;margin-top:0.25rem"><em>Image prompt: {{ recipe.image_prompt }}</em></div>
+    {% endif %}
+  </div>
+
+  <!-- Tags -->
+  {% if recipe.tags %}
+  <div class="recipe-tags">
+    {% for tag in recipe.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+  </div>
+  {% endif %}
+
+</article>
