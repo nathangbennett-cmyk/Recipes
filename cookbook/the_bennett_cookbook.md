@@ -29,8 +29,6 @@
 
 **Ratings:** Nathan 10.0/10
 
-![10/10 Tuna Pasta](../images/source/tuna-pasta-roasted-tomatoes.jpg)
-
 ### Ingredients
 
 - 500g spaghetti
@@ -67,8 +65,6 @@
 ## Miso Salmon with Coconut Rice and Charred Broccolini
 
 **Cuisine:** Asian-inspired · **Difficulty:** Medium · **Prep:** 15 min · **Cook:** 30 min · **Total:** 45 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Miso Salmon with Coconut Rice and Charred Broccolini](../images/source/miso-salmon-coconut-rice.jpg)
 
 ### Ingredients
 
@@ -111,8 +107,6 @@
 ## Hidden Zucchini Pesto Pasta
 
 **Cuisine:** Italian-inspired · **Difficulty:** Easy · **Prep:** 10 min · **Cook:** 20 min · **Total:** 30 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Hidden Zucchini Pesto Pasta](../images/source/hidden-zucchini-pesto-pasta.jpg)
 
 ### Ingredients
 
@@ -184,8 +178,6 @@
 
 **Cuisine:** Modern Australian · **Difficulty:** Easy · **Prep:** 3 min · **Cook:** 7 min · **Total:** 10 min · **Serves:** 4 · **Kid Friendly** ✓
 
-![Charred Broccolini](../images/source/charred-broccolini.jpg)
-
 ### Ingredients
 
 - 2 bunches broccolini
@@ -214,8 +206,6 @@
 ## Lemon Garlic Yoghurt
 
 **Cuisine:** Middle Eastern-inspired · **Difficulty:** Easy · **Prep:** 5 min · **Cook:** 0 min · **Total:** 5 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Lemon Garlic Yoghurt](../images/source/lemon-garlic-yoghurt.jpg)
 
 ### Ingredients
 
@@ -249,8 +239,6 @@
 **Cuisine:** Italian-inspired · **Difficulty:** Easy · **Prep:** 10 min · **Cook:** 25 min · **Total:** 35 min · **Serves:** 4 · **Kid Friendly** ✓
 
 **Ratings:** Nathan 10.0/10
-
-![10/10 Tuna Pasta](../images/source/tuna-pasta-roasted-tomatoes.jpg)
 
 ### Ingredients
 
@@ -288,8 +276,6 @@
 ## Miso Salmon with Coconut Rice and Charred Broccolini
 
 **Cuisine:** Asian-inspired · **Difficulty:** Medium · **Prep:** 15 min · **Cook:** 30 min · **Total:** 45 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Miso Salmon with Coconut Rice and Charred Broccolini](../images/source/miso-salmon-coconut-rice.jpg)
 
 ### Ingredients
 
@@ -333,8 +319,6 @@
 
 **Cuisine:** Italian-inspired · **Difficulty:** Easy · **Prep:** 10 min · **Cook:** 20 min · **Total:** 30 min · **Serves:** 4 · **Kid Friendly** ✓
 
-![Hidden Zucchini Pesto Pasta](../images/source/hidden-zucchini-pesto-pasta.jpg)
-
 ### Ingredients
 
 - 400g pasta (penne, rigatoni or fusilli)
@@ -370,8 +354,6 @@
 ## Vegetarian Lasagna
 
 **Cuisine:** Italian · **Difficulty:** Advanced · **Prep:** 30 min · **Cook:** 60 min · **Total:** 90 min · **Serves:** 6-8 · **Kid Friendly** ✓
-
-![Vegetarian Lasagna](../images/source/vegetarian-lasagna.jpg)
 
 ### Ingredients
 
@@ -456,8 +438,6 @@
 
 **Ratings:** Nathan 10.0/10
 
-![10/10 Tuna Pasta](../images/source/tuna-pasta-roasted-tomatoes.jpg)
-
 ### Ingredients
 
 - 500g spaghetti
@@ -494,8 +474,6 @@
 ## Hidden Zucchini Pesto Pasta
 
 **Cuisine:** Italian-inspired · **Difficulty:** Easy · **Prep:** 10 min · **Cook:** 20 min · **Total:** 30 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Hidden Zucchini Pesto Pasta](../images/source/hidden-zucchini-pesto-pasta.jpg)
 
 ### Ingredients
 
@@ -569,8 +547,6 @@
 
 **Cuisine:** Asian-inspired · **Difficulty:** Medium · **Prep:** 15 min · **Cook:** 30 min · **Total:** 45 min · **Serves:** 4 · **Kid Friendly** ✓
 
-![Miso Salmon with Coconut Rice and Charred Broccolini](../images/source/miso-salmon-coconut-rice.jpg)
-
 ### Ingredients
 
 - 4 salmon fillets (approx. 180g each)
@@ -614,8 +590,6 @@
 ## Vegetarian Lasagna
 
 **Cuisine:** Italian · **Difficulty:** Advanced · **Prep:** 30 min · **Cook:** 60 min · **Total:** 90 min · **Serves:** 6-8 · **Kid Friendly** ✓
-
-![Vegetarian Lasagna](../images/source/vegetarian-lasagna.jpg)
 
 ### Ingredients
 
@@ -664,8 +638,6 @@
 
 **Cuisine:** Middle Eastern-inspired · **Difficulty:** Medium · **Prep:** 15 min · **Cook:** 30 min · **Total:** 45 min · **Serves:** 4 · **Kid Friendly** ✓
 
-![Shakshouka Feast](../images/source/shakshouka-feast.jpg)
-
 ### Ingredients
 
 - 1 onion, diced
@@ -712,8 +684,6 @@
 
 **Cuisine:** Asian-inspired · **Difficulty:** Medium · **Prep:** 15 min · **Cook:** 30 min · **Total:** 45 min · **Serves:** 4 · **Kid Friendly** ✓
 
-![Miso Salmon with Coconut Rice and Charred Broccolini](../images/source/miso-salmon-coconut-rice.jpg)
-
 ### Ingredients
 
 - 4 salmon fillets (approx. 180g each)
@@ -755,8 +725,6 @@
 ## Shakshouka Feast
 
 **Cuisine:** Middle Eastern-inspired · **Difficulty:** Medium · **Prep:** 15 min · **Cook:** 30 min · **Total:** 45 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Shakshouka Feast](../images/source/shakshouka-feast.jpg)
 
 ### Ingredients
 
@@ -801,8 +769,6 @@
 ## Vegetarian Lasagna
 
 **Cuisine:** Italian · **Difficulty:** Advanced · **Prep:** 30 min · **Cook:** 60 min · **Total:** 90 min · **Serves:** 6-8 · **Kid Friendly** ✓
-
-![Vegetarian Lasagna](../images/source/vegetarian-lasagna.jpg)
 
 ### Ingredients
 
@@ -849,8 +815,6 @@
 
 **Cuisine:** Modern Australian · **Difficulty:** Easy · **Prep:** 3 min · **Cook:** 7 min · **Total:** 10 min · **Serves:** 4 · **Kid Friendly** ✓
 
-![Charred Broccolini](../images/source/charred-broccolini.jpg)
-
 ### Ingredients
 
 - 2 bunches broccolini
@@ -879,8 +843,6 @@
 ## Lemon Garlic Yoghurt
 
 **Cuisine:** Middle Eastern-inspired · **Difficulty:** Easy · **Prep:** 5 min · **Cook:** 0 min · **Total:** 5 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Lemon Garlic Yoghurt](../images/source/lemon-garlic-yoghurt.jpg)
 
 ### Ingredients
 
@@ -913,8 +875,6 @@
 
 **Cuisine:** Modern Australian · **Difficulty:** Easy · **Prep:** 3 min · **Cook:** 7 min · **Total:** 10 min · **Serves:** 4 · **Kid Friendly** ✓
 
-![Charred Broccolini](../images/source/charred-broccolini.jpg)
-
 ### Ingredients
 
 - 2 bunches broccolini
@@ -943,8 +903,6 @@
 ## Lemon Garlic Yoghurt
 
 **Cuisine:** Middle Eastern-inspired · **Difficulty:** Easy · **Prep:** 5 min · **Cook:** 0 min · **Total:** 5 min · **Serves:** 4 · **Kid Friendly** ✓
-
-![Lemon Garlic Yoghurt](../images/source/lemon-garlic-yoghurt.jpg)
 
 ### Ingredients
 
