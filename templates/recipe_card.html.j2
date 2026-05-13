@@ -1,8 +1,9 @@
 <article class="recipe-card" id="recipe-{{ recipe.recipe_id }}">
 
   <!-- Image -->
-  {% if recipe.image_file %}
-  <img src="../images/source/{{ recipe.image_file }}"
+  {% set img_src = recipe.image_url or ('../images/source/' + recipe.image_file if recipe.image_file else None) %}
+  {% if img_src %}
+  <img src="{{ img_src }}"
        alt="{{ recipe.recipe_name }}"
        class="recipe-image"
        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
