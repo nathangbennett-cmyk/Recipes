@@ -82,6 +82,7 @@ class Recipe(BaseModel):
     # Images
     image_prompt: Optional[str] = None
     image_file: Optional[str] = None
+    emoji: str = "🍽️"
 
     # Flags
     try_soon: bool = False

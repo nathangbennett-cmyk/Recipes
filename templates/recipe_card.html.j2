@@ -7,11 +7,13 @@
        class="recipe-image"
        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
   <div class="recipe-image recipe-image--placeholder" style="display:none">
-    Image: {{ recipe.recipe_name }}
+    <span class="recipe-image__emoji">{{ recipe.emoji }}</span>
+    <span class="recipe-image__label">{{ recipe.recipe_name }}</span>
   </div>
   {% else %}
   <div class="recipe-image recipe-image--placeholder">
-    {{ recipe.recipe_name }}
+    <span class="recipe-image__emoji">{{ recipe.emoji }}</span>
+    <span class="recipe-image__label">{{ recipe.recipe_name }}</span>
   </div>
   {% endif %}
 

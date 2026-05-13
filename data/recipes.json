@@ -73,7 +73,8 @@
       "family-favourite",
       "quick",
       "pantry"
-    ]
+    ],
+    "emoji": "🍝"
   },
   {
     "recipe_id": "miso-salmon-coconut-rice",
@@ -154,7 +155,8 @@
       "weeknight",
       "entertaining",
       "healthy-ish"
-    ]
+    ],
+    "emoji": "🐟"
   },
   {
     "recipe_id": "shakshouka-feast",
@@ -237,7 +239,8 @@
       "entertaining",
       "weekend",
       "impressive"
-    ]
+    ],
+    "emoji": "🍳"
   },
   {
     "recipe_id": "hidden-zucchini-pesto-pasta",
@@ -310,7 +313,8 @@
       "weeknight",
       "vegetarian",
       "quick"
-    ]
+    ],
+    "emoji": "🌿"
   },
   {
     "recipe_id": "vegetarian-lasagna",
@@ -393,7 +397,8 @@
       "make-ahead",
       "family-favourite",
       "pasta"
-    ]
+    ],
+    "emoji": "🫕"
   },
   {
     "recipe_id": "tomato-herb-pasta",
@@ -464,7 +469,8 @@
       "vegetarian",
       "quick",
       "herbs"
-    ]
+    ],
+    "emoji": "🍅"
   },
   {
     "recipe_id": "charred-broccolini",
@@ -530,7 +536,8 @@
       "quick",
       "healthy-ish",
       "weeknight"
-    ]
+    ],
+    "emoji": "🥦"
   },
   {
     "recipe_id": "lemon-garlic-yoghurt",
@@ -597,6 +604,7 @@
       "vegetarian",
       "brunch",
       "quick"
-    ]
+    ],
+    "emoji": "🍋"
   }
 ]
